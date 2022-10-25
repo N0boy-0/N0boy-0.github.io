@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0">
-        <title>N0boy</title>
+        <title>Easy_serialize_php | N0boy</title>
         <meta name="author" content="N0boy">
         <meta name="description" content="">
         <meta name="keywords" content="">
@@ -119,35 +119,18 @@
 </nav>
                     </div>
                     <div id="main">
-                        <div id="home-head">
-    <div id="home-background" style="background-image: url(https://i.r1s.cn/i/2022/10/12/qu0439.jpg)"></div>
-    
-    <div id="home-info" class="home-info" @click="home_click">
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="loop"></span>
-        <span class="info">
-            <div class="wrap">
-                <h1>N0boy</h1>
-                <h3>Hi,I&#39;m Noboy!</h3>
-                <h5></h5>
-            </div>
-        </span>
+                        
+<div class="article">
+    <div>
+        <h1>Easy_serialize_php </h1>
     </div>
-    
-</div>
-
-<div id="home-posts-wrap" class="">
-    <div id="home-posts">
-        <div id="posts">
-            
-
-<div class="post">
-    <a href="/2022/10/25/easy-serialize-php/">
-        <h2 class="post-title">Easy_serialize_php</h2>
-    </a>
-    <div class="category-and-date">
+    <div class="info">
+        <span class="date">
+            <span class="icon">
+                <svg class="fa-icon"><use xlink:href="#calendar-solid"></use></svg>
+            </span>
+            2022/10/25
+        </span>
         
         <span class="category">
             <a href="/categories/web/">
@@ -158,17 +141,24 @@
             </a>
         </span>
         
-        <span class="date">
+        
+        <span class="tags">
             <span class="icon">
-                <svg class="fa-icon"><use xlink:href="#calendar-solid"></use></svg>
+                <svg class="fa-icon"><use xlink:href="#tags-solid"></use></svg>
             </span>
-            2022/10/25
-        </span>
-    </div>
-    <div class="excerpt">
-        <div class="content" v-pre>
             
-            <h1>easy_serialize_php</h1>
+            <span class="tag">
+                
+                <a href="/tags/ctf/" style="color: #03a9f4">
+                    -ctf
+                </a>
+            </span>
+            
+        </span>
+        
+    </div>
+    <div class="content" v-pre>
+        <h1>easy_serialize_php</h1>
 <blockquote>
 <p>文笔垃圾，内容肤浅，毫无营养。</p>
 <p>题目地址：<a target="_blank" rel="noopener" href="https://buuoj.cn/">https://buuoj.cn/</a></p>
@@ -326,183 +316,8 @@ if($function == 'highlight_file')&#123;
 <p>_SESSION[user]=flagflagphpphpphpphpphp&amp;_SESSION[function]=&quot;;s:3:“img”;s:20:“L2QwZzNfZmxsbGxsbGFn”;s:1:“b”;s:1:“a”;}</p>
 <p><img src="https://s2.loli.net/2022/10/25/9atfRgDUVlXBhkM.png" alt="image-20221025175957610.png"></p>
 
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <svg class="fa-icon"><use xlink:href="#tags-solid"></use></svg>
-        </span>
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/ctf/" style="color: #00bcd4">
-                -ctf
-            </a>
-        </span>
-        
-    </div>
-    <a href="/2022/10/25/easy-serialize-php/" class="go-post">阅读全文</a>
-</div>
-
-<div class="post">
-    <a href="/2022/10/13/docker/">
-        <h2 class="post-title">Docker</h2>
-    </a>
-    <div class="category-and-date">
-        
-        <span class="date">
-            <span class="icon">
-                <svg class="fa-icon"><use xlink:href="#calendar-solid"></use></svg>
-            </span>
-            2022/10/13
-        </span>
-    </div>
-    <div class="excerpt">
-        <div class="content" v-pre>
-            
-            <h1>docker的常用命令</h1>
-<h2 id="帮助命令">帮助命令</h2>
-<p><strong>docker version   #显示docker的版本信息</strong></p>
-<p><strong>docker info   #显示docker的系统信息，包括镜像和容器的数量</strong></p>
-<p>docker 命令 --help  #万能命令</p>
-<p>帮助文档地址：<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">https://docs.docker.com/reference/</a></p>
-<h2 id="镜像命令">镜像命令</h2>
-<ol>
-<li><strong>docker images #查看本地所有主机上的镜像</strong></li>
-</ol>
-<p>-a, --all    #显示所有镜像</p>
-<p>-q, --quiet   #只显示镜像id</p>
-<ol start="2">
-<li><strong>docker search 搜索镜像</strong></li>
-</ol>
-<pre><code class="language-shell">sudo docker search mysql
-NAME                            DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-mysql                           MySQL is a widely used, open-source relation…   13234     [OK]
-mariadb                         MariaDB Server is a high performing open sou…   5062      [OK]
-phpmyadmin                      phpMyAdmin - A web interface for MySQL and M…   640       [OK]
-percona                         Percona Server is a fork of the MySQL relati…   588       [OK]
-bitnami/mysql                   Bitnami MySQL Docker Image                      77                   [OK]
-</code></pre>
-<p>–filter=STARS=3000   #搜索出来的镜像就是STARS大于3000的</p>
-<ol start="3">
-<li><strong>docker pull 下载镜像</strong></li>
-</ol>
-<p>#下载镜像 docker pull 镜像名[:tag]（tag是对应版本）</p>
-<p>docker pull mysql  #如果不写tag，默认是latest（最新版）</p>
-<ol start="4">
-<li><strong>docker rmi #删除镜像</strong></li>
-</ol>
-<p>docker rmi -f 镜像id</p>
-<p>docker rmi -f $(docker images -aq)   #利用linux命令，此时会将所有镜像递归删除</p>
-<h2 id="容器命令">容器命令</h2>
-<p>说明：我们有了镜像才可以创建容器。linux，下载一个centos镜像来测试学习</p>
-<p><strong>docker pull centos</strong>    #安装最新版的centos</p>
-<p><strong>新建容器并启动</strong></p>
-<p>docker run [可选参数] image</p>
-<pre><code class="language-shell">#参数说明
---name=&quot;Name&quot;   #容器名字 tomcat01 tomcat02  用来区分容器
--d    #后台方式运行
--it   #使用交互方式运行，进入容器查看内容
--p    #指定容器的端口 -p 8080：8080
-	-p ip:主机端口:容器端口
-	-p 主机端口:容器端口
-	-p 容器端口
--P    #随机指定端口
-</code></pre>
-<p><strong>docker run -it centos /bin/bash</strong>   #启动并进入容器</p>
-<p>exit    #从容器中退回去主机中</p>
-<ol>
-<li><strong>docker ps   #列出所有运行中的容器</strong></li>
-</ol>
-<p>-a   #查看运行中的容器+运行过的容器</p>
-<p>-q   #只显示容器的id</p>
-<ol start="2">
-<li><strong>docker rm 容器id    #删除指定的容器</strong></li>
-</ol>
-<p>docker rm -f $(docker ps -aq)   #删除指定的容器</p>
-<p>docker ps -a -q|xargs docker rm   #删除所有的容器</p>
-<ol start="3">
-<li>docker 启动暂停容器</li>
-</ol>
-<p>docker start 容器id   #开始容器</p>
-<p>docker stop 容器id  #停止容器</p>
-<p>docker restart 容器id   #重启容器</p>
-<p>docker kill 容器id   #暴力停止容器</p>
-
-            
-        </div>
-    </div>
-    <div class="post-tags">
-        
-        <span class="icon">
-            <svg class="fa-icon"><use xlink:href="#tags-solid"></use></svg>
-        </span>
-        
-        
-        <span class="tag">
-            
-            <a href="/tags/tools/" style="color: #03a9f4">
-                -tools
-            </a>
-        </span>
-        
-    </div>
-    <a href="/2022/10/13/docker/" class="go-post">阅读全文</a>
-</div>
-
-             
-<div class="page-current">
-    <div class="prev">
-        
-    </div>
-    <div class="page-index">
-        
-        <span class="current">
-            1
-        </span>
-        
-    </div>
-    <div class="next">
-        
-    </div>
-</div>
-        </div>
     </div>
     
-    <div id="home-card">
-        <div id="card-div">
-    <div class="card-style" style="width: 300px">
-        <div class="avatar">
-            <img src="https://i.r1s.cn/i/2022/10/12/r7j0j1.jpg " alt="avatar">
-        </div>
-        <div class="name">
-            N0boy
-        </div>
-        <div class="descriptions">
-            
-            <div class="description">
-                cyber security lover
-            </div>
-            
-        </div>
-        <div class="icon-links">
-            
-            <span class="icon-link">
-                <a href="https://n0boy-0.github.io/about/">
-                    <i class="fa-brands fa-qq fa-fw"></i>
-                </a>
-            </span>
-            
-        </div>
-        <div class="friend-links">
-            
-        </div>
-    </div>
-</div>
-    </div>
     
 </div>
                          

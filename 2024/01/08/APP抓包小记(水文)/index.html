@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="n0boy">
+  
+
+  
+
+  
+
+  <title>APP抓包小记(水文) | n0boy&#39;s blog</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/favicon.ico">
+  
+
+  <!--mathjax latex数学公式显示支持-->
+  
+  
+
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/background.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          n0boy&#39;s blog
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">APP抓包小记(水文)</h1>
+          <h2 class="title-sub-wrap">
+            <strong>n0boy</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-01-08T13:26:17.000Z" itemprop="datePublished">2024-01-08</time>
+          </h2>
+          
+          
+            <h2 id="/2024/01/08/APP%E6%8A%93%E5%8C%85%E5%B0%8F%E8%AE%B0(%E6%B0%B4%E6%96%87)/" class="title-sub-wrap leancloud_visitors" data-flag-title="APP抓包小记(水文)">
+              <em>文章访问量</em>
+              <i class="leancloud-visitors-count"></i>
+            </h2>
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/Android/">🏷️ Android</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+<!-- fancybox support -->
+
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <h1 id="APP抓包小记"><a href="#APP抓包小记" class="headerlink" title="APP抓包小记"></a>APP抓包小记</h1><blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/l331258747/article/details/128233881">https://blog.csdn.net/l331258747/article/details/128233881</a> 抓包原文在这里</p>
+</blockquote>
+<p>在一次偶然的机会，看到了抓包抖音app的文章，记得以前抓包很简单，没有现在这么复杂，所以学习一下。（一篇超级水的水文）</p>
+<h2 id="SSL-TLS协议"><a href="#SSL-TLS协议" class="headerlink" title="SSL&#x2F;TLS协议"></a>SSL&#x2F;TLS协议</h2><h3 id="首先介绍一下SSL-TLS，TLS和SSL是什么？为什么有人把这两个协议混为一谈？"><a href="#首先介绍一下SSL-TLS，TLS和SSL是什么？为什么有人把这两个协议混为一谈？" class="headerlink" title="首先介绍一下SSL/TLS，TLS和SSL是什么？为什么有人把这两个协议混为一谈？"></a>首先介绍一下<code>SSL/TLS</code>，TLS和SSL是什么？为什么有人把这两个协议混为一谈？</h3><p>​       安全套接字层（SSL）是一种通信协议或一组规则，用于在网络上的两个设备或应用程序之间创建安全连接。在通过互联网共享凭证或数据之前，建立信任并对另一方进行身份验证非常重要。SSL 是一种技术，您的应用程序或浏览器可能使用该技术在任何网络上创建安全的加密通信通道。但是，SSL 是一种较老的技术，包含一些安全漏洞。传输层安全性协议（TLS）是 SSL 的升级版本，用于修复现有 SSL 漏洞。TLS 可以更高效地进行身份验证，并继续支持加密的通信通道。</p>
+<p>​	SSL 和 TLS 都是通信协议，用于加密服务器、应用程序、用户和系统之间的数据。这两种协议都会对通过网络连接的双方进行身份验证，以便他们能安全交换数据。</p>
+<p>​	Taher Elgamal 领导了 SSL 的开发，并于 1995 年公开发布了 SSL 2.0。SSL 旨在确保万维网上的通信安全。在 SSL 经历多次迭代后，Tim Dierks 和 Christopher Allen 于 1999 年创建了 TLS 1.0，作为 SSL 3.0 的后继者。</p>
+<h3 id="为什么要用TLS协议呢？这个协议解决了哪些问题？"><a href="#为什么要用TLS协议呢？这个协议解决了哪些问题？" class="headerlink" title="为什么要用TLS协议呢？这个协议解决了哪些问题？"></a>为什么要用TLS协议呢？这个协议解决了哪些问题？</h3><p>​	TLS 是一种支持加密和身份验证的安全通信协议，SSL 在被弃用之前也是如此。TLS 和 SSL 都使用数字证书来简化握手过程并在浏览器和 Web 服务器之间建立加密通信。 </p>
+<p>​	超文本传输协议（HTTP）是用于客户端-服务器通信的协议或一组通信规则。当您访问网站时，您的浏览器会向 Web 服务器发送 HTTP 请求，该服务器将以 HTTP 响应进行响应。Web 服务器将以纯文本形式与您的浏览器交换数据。简而言之，HTTP 协议是为网络通信提供支持的底层技术。顾名思义，安全超文本传输协议（HTTPS）是 HTTP 的一种更安全的版本或扩展。在 HTTPS 中，浏览器与服务器会在传输数据之前建立安全的加密连接。</p>
+<p>​	简单来说，HTTPS&#x3D;HTTP+TLS，传输还是用HTTP协议传输，但是报文的内容不再是以前的明文传输，而是改为了加密后的内容。即使有人在中途获取了你发送的HTTP请求报文，没有密钥也无法解密看到明文内容。TLS协议就是客户端和服务端协商密钥的协议。</p>
+<h3 id="TLS-SSL协议工作原理"><a href="#TLS-SSL协议工作原理" class="headerlink" title="TLS&#x2F;SSL协议工作原理"></a>TLS&#x2F;SSL协议工作原理</h3><blockquote>
+<p>写在前面：如果下面的内容看不懂，移步：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1KY411x7Jp/%EF%BC%8C%E4%B8%8B%E9%9D%A2%E7%9A%84%E5%9B%BE%E7%89%87%E5%B0%B1%E6%98%AF%E4%BB%8E%E8%AF%A5%E8%A7%86%E9%A2%91%E4%B8%AD%E6%88%AA%E5%87%BA%E6%9D%A5%E7%9A%84">https://www.bilibili.com/video/BV1KY411x7Jp/，下面的图片就是从该视频中截出来的</a></p>
+<p>本节参考文章：<a target="_blank" rel="noopener" href="https://www.biaodianfu.com/https-ssl-tls.html">https://www.biaodianfu.com/https-ssl-tls.html</a> 以下内容比较通俗易懂，很多技术细节没有讲到，有想要详细了解的可以点开这个链接去深入了解，或者直接去看RFC-TLS官方文档：<a target="_blank" rel="noopener" href="https://datatracker.ietf.org/doc/html/rfc5246">https://datatracker.ietf.org/doc/html/rfc5246</a></p>
+</blockquote>
+<p>客户端和服务端要建立TCP连接之后才能进行如下会话：<img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108145402225.png" alt="image-20240108145402225"></p>
+<p>我用Wireshark抓包vivo.com 为例子演示：</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108153532074.png" alt="image-20240108153532074"></p>
+<p><strong>Client Hello</strong></p>
+<p>握手第一步是客户端向服务端发送 Client Hello 消息，这个消息里包含了一个客户端生成的随机数 Random1、客户端支持的加密套件（Support Ciphers）和 SSL Version 等信息。</p>
+<p>Client Hello中涉及到的消息具体如下：</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108153622210.png" alt="image-20240108153622210"></p>
+<ul>
+<li>客户端版本：按优先级列出客户端支持的协议版本，首选客户端希望支持的最新协议版本。</li>
+<li>客户端随机数Random</li>
+<li>会话ID（Session id）：如果客户端第一次连接到服务器，那么这个字段就会保持为空。上图中该字段为空，说明这是第一次连接到服务器。如果该字段不为空，说明以前是与服务器有连接的，在此期间，服务器将使用Session ID映射对称密钥，并将Session ID存储在客户端浏览器中，为映射设置一个时间限。如果浏览器将来连接到同一台服务器（在时间到期之前），它将发送Session ID，服务器将对映射的Session ID进行验证，并使用以前用过的对称密钥来恢复Session，这种情况下不需要完全握手。也叫作SSL会话恢复。</li>
+<li>加密套件：客户端会给服务器发送自己已经知道的密码套件列表，这是由客户按优先级排列的，但完全由服务器来决定发送与否。TLS中使用的密码套件有一种标准格式。上面的报文中，客户端发送了74套加密套件。服务端会从中选出一种来作为双方共同的加密套件。</li>
+<li>压缩方法：为了减少带宽，可以进行压缩。但从成功攻击TLS的事例中来看，其中使用压缩时的攻击可以捕获到用HTTP头发送的参数，这个攻击可以劫持Cookie，这个漏洞我们称为CRIME。从TLS 1.3开始，协议就禁用了TLS压缩。</li>
+<li>扩展包：其他参数（如服务器名称，填充，支持的签名算法等）可以作为扩展名使用。</li>
+</ul>
+<p><strong>ServerHello</strong></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108153748732.png" alt="image-20240108153748732"></p>
+<p>​	收到客户端问候之后服务器必须发送服务器问候信息，服务器会检查指定诸如TLS版本和算法的客户端问候的条件，如果服务器接受并支持所有条件，它将发送其证书以及其他详细信息，否则，服务器将发送握手失败消息。</p>
+<p>​	Server Hello会从Client Hello 传过来的 Support Ciphers 里确定一份加密套件，这个套件决定了后续加密和生成摘要时具体使用哪些算法，另外还会生成一份随机数 Random2。注意，至此客户端和服务端都拥有了两个随机数（Random1+ Random2），这两个随机数会在后续生成对称秘钥时用到。</p>
+<p>ServerHello中涉及到的具体参数：</p>
+<ul>
+<li>服务器版本Version：服务器会选择客户端支持的最新版本。</li>
+<li>服务器随机数Random：服务器和客户端都会生成32字节的随机数。用来创建加密密钥。</li>
+<li>加密套件：服务器会从客户端发送的加密套件列表中选出一个加密套件。</li>
+<li>会话ID（Session ID）：服务器将约定的Session参数存储在TLS缓存中，并生成与其对应的Session id。它与Server Hello一起发送到客户端。客户端可以写入约定的参数到此Session id，并给定到期时间。客户端将在Client Hello中包含此id。如果客户端在此到期时间之前再次连接到服务器，则服务器可以检查与Session id对应的缓存参数，并重用它们而无需完全握手。这非常有用，因为服务器和客户端都可以节省大量的计算成本。在涉及亚马逊和谷歌等流量巨大的应用程序时，这种方法存在缺点。每天都有数百万人连接到服务器，服务器必须使用Session密钥保留所有Session参数的TLS缓存。这是一个巨大的开销。为了解决这个问题，在扩展包里加入了Session Tickets, 在这里，客户端可以在client hello中指定它是否支持Session Ticket。然后，服务器将创建一个新的会话票证(Session Ticket)，并使用只有服务器知道的经过私钥加密的Session参数。它将存储在客户端上，因此所有Session数据仅存储在客户端计算机上，但Ticket仍然是安全的，因为该密钥只有服务器知道。此数据可以作为名为Session Ticket的扩展包含在Client Hello中。在TLS 1.2中才用的就是Session Ticket机制。</li>
+<li>压缩算法：如果支持，服务器将同意客户端的首选压缩方法。</li>
+<li>扩展包</li>
+</ul>
+<p><strong>Certificate, Server Key Exchange, Server Hello Done</strong></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108154733754.png" alt="image-20240108154733754"></p>
+<p><em>Certificate</em></p>
+<p>服务端将自己的证书下发给客户端，让客户端验证自己的身份，客户端验证通过后取出证书中的公钥。这些SSL证书是通过CA证书机构签名认证过的证书，所谓的签名就是首先对证书进行hash计算，然后用CA根证书的私钥加密之后保存在证书里，客户端是默认信任CA根证书（系统级别），根证书中就有公钥，通过公钥解密得到证书的hash，然后客户端自己再对证书进行hash计算，比对这两个hash是否相同，这样就可以验证证书的真伪。其实这里也会导致	问题，会导致MITM攻击(中间人攻击)。</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108155358023.png" alt="image-20240108155358023"></p>
+<p><em>Server Key Exchange（可选）</em></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108160827255.png" alt="image-20240108160827255"></p>
+<p>根据之前在ClientHello消息中包含的CipherSuite信息，决定了密钥交换方式（例如RSA或者DH），因此在Server Key Exchange消息中便会包含完成密钥交换所需的一系列参数。</p>
+<p><em>Server Hello Done</em></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108160924580.png" alt="image-20240108160924580"></p>
+<p>该消息表示服务器已经将所有信息发送完毕，接下来等待客户端的消息。</p>
+<p><strong>Client Key Exchange, Change Cipher Spec, Encrypted Handshake Message</strong></p>
+<p><em>Client Key exchange</em></p>
+<p>根据之前从服务器端收到的随机数，按照不同的密钥交换算法，算出一个pre-master，发送给服务器，服务器端收到pre-master算出main master。而客户端当然也能自己通过pre-master算出main master。如此以来双方就算出了对称密钥。pre-master 应该是预主密钥，这里的预备主密钥是通过公钥加密过的，服务器端可以根据私钥解密出来。</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108161819959.png" alt="image-20240108161819959"></p>
+<p>Change Cipher Spec ：客户端发送消息告诉服务器更改为加密模式。告诉服务器下面的消息是加密过的。</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108162121118.png" alt="image-20240108162121118"></p>
+<p>Encrypted handshake message是使用对称秘钥进行加密的第一个报文，供客户端和服务端去验证是否能够通过计算出来的这个主密钥去解密出这个message</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108162153460.png" alt="image-20240108162153460"></p>
+<p><strong>New Session Ticket, Change Cipher Spec, Encrypted Handshake Message</strong></p>
+<p>Session Ticket: 加密后的session status信息，包含了master key，以及cipher suite，这些信息会被用来生成新的session key，保证前向安全。同时这个信息只有服务器才能解密。</p>
+<p>Session Ticket LIfetime Hint: 保存时间指示，当时间到期时，客户端必须删除该ticket。</p>
+<p><img src="D:\lucifer\image\image-20240108163919666.png" alt="image-20240108163919666"></p>
+<p>下面的内容和之前的内容一样，服务端给客户端发送加密Message，看客户端是否能够恢复Message</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108164837846.png" alt="image-20240108164837846"></p>
+<p>如果双方都恢复成功，就可以进入加密通话了。</p>
+<h2 id="MITM攻击"><a href="#MITM攻击" class="headerlink" title="MITM攻击"></a>MITM攻击</h2><p>类似于burp之类的工具可以直接抓到HTTPS的明文，使用的就是MITM攻击，我简单叙述一下原理。</p>
+<p>​	首先我们在抓包https之前都会有一个操作去信任一个burp的内置证书，这个证书其实就是根证书，根证书首先是自签名的，对于信任的根证书所签发的所有证书系统都是信任的，这就导致可以伪造证书。举个简单的例子，首先我们在系统上安装了burp的内置证书，当访问baidu.com的时候，burp会在与baidu.com TLS 握手的时候将baidu.com发回来的证书替换为自己根证书签名过的证书，然后burp获取了baidu.com的真实证书，就可以伪造下次握手的内容，代替客户端与其通话，客户端用伪造的证书发的报文burp也可以解密，之后再用正确的证书加密发送给baidu.com服务器，这样就完成了中间人攻击。</p>
+<h2 id="SSL-pinning"><a href="#SSL-pinning" class="headerlink" title="SSL pinning"></a>SSL pinning</h2><p>HTTPS当下已经非常普遍，HTTPS全称是Hypertext Transfer Protocol Secure，在HTTP基础上增加了TLS加密，虽然名字里有个Secure，但HTTPS并不是绝对安全的，依然存在被中间人攻击（Man-in-the-middle attack）的风险，进而导致应用被抓包，HTTPS的加密流量被获取。</p>
+<p>所以客户端提供了一种额外的机制来保证HTTPS通信的安全，SSL Pinning，SSL Pinning又可以细分为Certificate Pinning和Public Key Pinning。</p>
+<h3 id="Certificate-Pinning"><a href="#Certificate-Pinning" class="headerlink" title="Certificate Pinning"></a>Certificate Pinning</h3><p>证书锁定：比如一些客户端会将自己的证书也打包进安装包，在客户端与服务端通信时，客户端会对服务端返回来的证书进行检测，如果与安装包打包的证书不一致时就会停止通信。</p>
+<h3 id="Public-Key-Pinning"><a href="#Public-Key-Pinning" class="headerlink" title="Public Key Pinning"></a>Public Key Pinning</h3><p>公钥锁定：就是可以在配置文件中配置了公钥，证书更新时公钥和算法是可以保持不变的，<code>Public Key Pinning</code>主要是为了防止证书更新带来的不便。</p>
+<h2 id="android抓包环境配置"><a href="#android抓包环境配置" class="headerlink" title="android抓包环境配置"></a>android抓包环境配置</h2><p>首先下载一款模拟器软件，这里使用的是雷神模拟器，当然也可以选择其他模拟器，我这里因为雷电模拟器配置的android可以选择桥接的网卡，所以选择了雷电模拟器。下载地址：<code>https://www.ldmnq.com/</code>，我这里直接就用android 9了。<strong>一定要保证模拟器和你的windows在同一网段下</strong></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108193333078.png" alt="image-20240108193333078"></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108190958434.png" alt="image-20240108190958434"></p>
+<h2 id="android7-0"><a href="#android7-0" class="headerlink" title="android7.0+"></a>android7.0+</h2><p>我是用的<code>fiddler</code>抓包，<code>fiddler</code>默认导出的证书然后访问对应的端口下载证书并安装，这里就不详细去说了</p>
+<p>在android系统中内置的系统证书是默认信任的，而用户导入的证书是不信任的。用户导入的证书会被重命名为<code>证书hash.0 </code>前面的数字是证书的hash的一部分，可能是为了防止证书名字重复</p>
+<p>用户默认安装的证书位置：<code>/data/misc/user/0/cacerts-added/</code></p>
+<p>系统证书的安装位置：<code>/system/etc/security/cacerts/</code></p>
+<p>首先在安卓7.0之后默认不信任用户的证书，所以应该将证书拖到系统的目录，中间可能会出现read only权限错误，解决方法如下：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb shell mount -o rw,remount /system</span><br></pre></td></tr></table></figure>
+
+<p>如果失败的话，就退出之后：<code>adb remount</code>，之后可以看到是没有报错的</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240106153739805.png" alt="image-20240106153739805"></p>
+<p>最后重启模拟器就行，之后就可以看到证书已经被导入进来了</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240106153529687.png" alt="image-20240106153529687"></p>
+<p>对于一些简单的APP可以安装<code>Magisk</code>+<code>LSPosed</code>+<code>TrustMeAlready</code>进行绕过，<code>TrustMeAlready</code>应该是屏蔽掉ssl证书校验的步骤了。但是实际测试dy确实不行，还是无法抓到内容，对于低版本的dy是可以抓到包的。</p>
+<p><code>https://github.com/ViRb3/TrustMeAlready</code></p>
+<p>An Xposed module to disable SSL verification and pinning on Android using the excellent technique provided by <a target="_blank" rel="noopener" href="https://techblog.mediaservice.net/2018/11/universal-android-ssl-check-bypass-2/">Mattia Vinci</a>. The effect is system-wide.</p>
+<p>dy历史版本下载可以到豌豆荚中找，测试版本为23.3.0</p>
+<p>雷电模拟器在安装的位置会内置adb，用adb把安装后的文件pull下来</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">adb devices # 查看当前主机所连接的设备</span><br><span class="line">adb -s 你的设备名字 root</span><br><span class="line">adb -s 你的设备名字 pull /data/app/com.ss.android.ugc.aweme-pEmEAiO82FVGhuVi5epAHw==/lib/arm64/libsscronet.so ./</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108194257430.png" alt="image-20240108194257430"></p>
+<p>然后在当前目录下就会有这个文件，之后用IDA打开这个文件，之后的操作步骤如下，我就不复制了</p>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/l331258747/article/details/128233881">https://blog.csdn.net/l331258747/article/details/128233881</a> </p>
+</blockquote>
+<p>修改过后再adb push 进去就ok了</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">adb devices # 查看当前主机所连接的设备</span><br><span class="line">adb -s 你的设备名字 root</span><br><span class="line">adb -s 你的设备名字 shell</span><br><span class="line">rm /data/app/com.ss.android.ugc.aweme-pEmEAiO82FVGhuVi5epAHw==/lib/arm64/libsscronet.so</span><br><span class="line"><span class="keyword">exit</span></span><br><span class="line">adb -s 你的设备名字 push ./修改过后so的名字 /data/app/com.ss.android.ugc.aweme-pEmEAiO82FVGhuVi5epAHw==/lib/arm64/libsscronet.so</span><br></pre></td></tr></table></figure>
+
+<p>我自己在复现的时候，发现dy23.3.0的so文件不是32位的，而是64位的，可能跟模拟器有关系。总结一下就是该so文件中包含了ssl证书检测相关函数，因为是在本地检测，我可以通过修改so文件某些函数的返回值去绕过证书检测，具体的修改过程就不贴了，一方面不知道这东西能不能贴，其次就是自己没有仔细去分析，直接贴别人的成果不太好。</p>
+<p>实测最新版的dy也可以直接抓到，但是不能登录账号否则就会给你发短信，说账号锁定了，应该是检测了某些东西，因为没有相关APK逆向知识，所以这里也无法继续分析下去了，感觉很有意思，等之后如果弄明白回来更新这篇文章。</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108212026082.png" alt="image-20240108212026082"></p>
+<p>抓包结果如图：</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108205347228.png" alt="image-20240108205347228"></p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+    <div class="card-text">
+      
+        <a href="/2024/01/03/fastjson%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">fastjson反序列化</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/av-min.js"></script>
+    <script type="text/javascript" src='//lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "aEs4IH19AOVg9vxAAGCFlAd5-gzGzoHsz",
+        appKey: "Or2fQSExDK1sj0mq9SqaSNGe",
+        placeholder: "随便说点什么叭～",
+        avatar: "mp",
+        pageSize: 10,
+        lang: "zh-cn",
+        visitor: true,
+        recordIP: true,
+        enableQQ: false,
+        meta: ['nick', 'mail', 'link'],
+        requiredFields: ['nick'],
+        
+        // Bilibili 表情包插件
+        // 设置 Bilibili 表情包地址
+        emojiCDN: '//i0.hdslb.com/bfs/emote/', 
+        // 表情 title 和图片映射
+        emojiMaps: {
+            // 小黄脸
+            "2023": "fa6dda8b876ed38609de38aa604be5ad109b8591.png",
+            "足球": "f9157d9fa5ac3b8339cb8a8b7ad70eb40d4113c9.png",
+            "脱单doge": "bf7e00ecab02171f8461ee8cf439c73db9797748.png",
+            "微笑": "685612eadc33f6bc233776c6241813385844f182.png",
+            "口罩": "3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png",
+            "doge": "3087d273a78ccaff4bb1e9972e2ba2a7583c9f11.png",
+            "妙啊": "b4cb77159d58614a9b787b91b1cd22a81f383535.png",
+            "OK": "4683fd9ffc925fa6423110979d7dcac5eda297f4.png",
+            "星星眼": "63c9d1a31c0da745b61cdb35e0ecb28635675db2.png",
+            "辣眼睛": "35d62c496d1e4ea9e091243fa812866f5fecc101.png",
+            "吃瓜": "4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png",
+            "滑稽": "d15121545a99ac46774f1f4465b895fe2d1411c3.png",
+            "呲牙": "b5a5898491944a4268360f2e7a84623149672eb6.png",
+            "打call": "431432c43da3ee5aab5b0e4f8931953e649e9975.png",
+            "歪嘴": "4384050fbab0586259acdd170b510fe262f08a17.png",
+            "调皮": "8290b7308325e3179d2154327c85640af1528617.png",
+            "2022": "a783df2ce72952c44004007462324bde4b092a0c.png",
+            "虎年": "a062f5fa2bafe677e49b6963a2bbb11dd4fe1e11.png",
+            "豹富": "3d1dbe52ea16e12ff7b1c371196f728a4097fb33.png",
+            "嗑瓜子": "28a91da1685d90124cfeead74622e1ebb417c0eb.png",
+            "笑哭": "c3043ba94babf824dea03ce500d0e73763bf4f40.png",
+            "藏狐": "ba0937ef6f3ccca85e2e0047e6263f3b4da37201.png",
+            "脸红": "0922c375da40e6b69002bd89b858572f424dcfca.png",
+            "给心心": "1597302b98827463f5b75c7cac1f29ea6ce572c4.png",
+            "嘟嘟": "abd7404537d8162720ccbba9e0a8cdf75547e07a.png",
+            "哦呼": "362bded07ea5434886271d23fa25f5d85d8af06c.png",
+            "喜欢": "8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png",
+            "酸了": "92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png",
+            "嫌弃": "de4c0783aaa60ec03de0a2b90858927bfad7154b.png",
+            "大哭": "2caafee2e5db4db72104650d87810cc2c123fc86.png",
+            "害羞": "9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png",
+            "疑惑": "b7840db4b1f9f4726b7cb23c0972720c1698d661.png",
+            "喜极而泣": "485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png",
+            "奸笑": "bb84906573472f0a84cebad1e9000eb6164a6f5a.png",
+            "笑": "81edf17314cea3b48674312b4364df44d5c01f17.png",
+            "偷笑": "6c49d226e76c42cd8002abc47b3112bc5a92f66a.png",
+            "惊讶": "f8e9a59cad52ae1a19622805696a35f0a0d853f3.png",
+            "捂脸": "6921bb43f0c634870b92f4a8ad41dada94a5296d.png",
+            "阴险": "ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png",
+            "囧": "12e41d357a9807cc80ef1e1ed258127fcc791424.png",
+            "呆": "33ad6000d9f9f168a0976bc60937786f239e5d8c.png",
+            "抠鼻": "cb89184c97e3f6d50acfd7961c313ce50360d70f.png",
+            "大笑": "ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png",
+            "惊喜": "0afecaf3a3499479af946f29749e1a6c285b6f65.png",
+            "无语": "44667b7d9349957e903b1b62cb91fb9b13720f04.png",
+            "点赞": "1a67265993913f4c35d15a6028a30724e83e7d35.png",
+            "鼓掌": "895d1fc616b4b6c830cf96012880818c0e1de00d.png",
+            "尴尬": "cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png",
+            "灵魂出窍": "43d3db7d97343c01b47e22cfabeca84b4251f35a.png",
+            "委屈": "d2f26cbdd6c96960320af03f5514c5b524990840.png",
+            "傲娇": "010540d0f61220a0db4922e4a679a1d8eca94f4e.png",
+            "疼": "905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png",
+            "冷": "cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png",
+            "热": "4e58a2a6f5f1580ac33df2d2cf7ecad7d9ab3635.png",
+            "生病": "0f25ce04ae1d7baf98650986454c634f6612cb76.png",
+            "吓": "9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png",
+            "吐": "06946bfe71ac48a6078a0b662181bb5cad09decc.png",
+            "捂眼": "c5c6d6982e1e53e478daae554b239f2b227b172b.png",
+            "嘘声": "e64af664d20716e090f10411496998095f62f844.png",
+            "思考": "cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png",
+            "再见": "fc510306bae26c9aec7e287cdf201ded27b065b9.png",
+            "翻白眼": "eba54707c7168925b18f6f8b1f48d532fe08c2b1.png",
+            "哈欠": "888d877729cbec444ddbd1cf4c9af155a7a06086.png",
+            "奋斗": "bb2060c15dba7d3fd731c35079d1617f1afe3376.png",
+            "墨镜": "3a03aebfc06339d86a68c2d893303b46f4b85771.png",
+            "难过": "a651db36701610aa70a781fa98c07c9789b11543.png",
+            "撇嘴": "531863568e5668c5ac181d395508a0eeb1f0cda4.png",
+            "抓狂": "4c87afff88c22439c45b79e9d2035d21d5622eba.png",
+            "生气": "3195714219c4b582a4fb02033dd1519913d0246d.png",
+            "水稻": "d530fcaa5100ba12a17a79b55bad342d530c54e3.png",
+            "奶茶干杯": "d5a491990be551ce69f9660da948050df4eab331.png",
+            "汤圆": "93609633a9d194cf336687eb19c01dca95bde719.png",
+            "锦鲤": "643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png",
+            "弹幕破百亿": "80891223ba023dff3141e377f4ea3b89918eb6a4.png",
+            "福到了": "5de5373d354c373cf1617b6b836f3a8d53c5a655.png",
+            "鸡腿": "c7860392815d345fa69c4f00ef18d67dccfbd574.png",
+            "雪花": "a41813c4edf8782047e172c884ebd4507ce5e449.png",
+            "视频卫星": "dce6fc7d6dfeafff01241924db60f8251cca5307.png",
+            "干杯": "8da12d5f55a2c7e9778dcc05b40571979fe208e6.png",
+            "黑洞": "e90ec4c799010f25391179118ccd9f66b3b279ba.png",
+            "爱心": "ed04066ea7124106d17ffcaf75600700e5442f5c.png",
+            "胜利": "b49fa9f4b1e7c3477918153b82c60b114d87347c.png",
+            "加油": "c7aaeacb21e107292d3bb053e5abde4a4459ed30.png",
+            "抱拳": "89516218158dbea18ab78e8873060bf95d33bbbe.png",
+            "响指": "1b5c53cf14336903e1d2ae3527ca380a1256a077.png",
+            "保佑": "fafe8d3de0dc139ebe995491d2dac458a865fb30.png",
+            "福": "802429a301ac5b35a0480d9526a070ce67cd8097.png",
+            "支持": "3c210366a5585706c09d4c686a9d942b39feeb50.png",
+            "拥抱": "41780a4254750cdaaccb20735730a36044e98ef3.png",
+            "跪了": "f2b3aee7e521de7799d4e3aa379b01be032698ac.png",
+            "怪我咯": "07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png",
+            "老鼠": "8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png",
+            "牛年": "9275275ff1f2659310648221107d20bc4970f106.png",
+            "三星堆": "fc7dadaa6986e75b813aa26f3eff3281d5f1a6d1.png",
+            "洛天依": "9fe06f3594d9afaf4ee2b74770f1c3086ae0ba11.png",
+            "坎公骑冠剑_吃鸡": "c4248a7b6ab326d66c83fd1fb58f1a50f99df332.png",
+            "坎公骑冠剑_钻石": "0b97c7e50e0cc963370e62fbb9b55f51bbe7f8ab.png",
+            "坎公骑冠剑_无语": "80eba0ce64c3fc1279b4daede2f1979cb2380e78.png",
+            "来古-沉思": "4ee07ff03266d62b246be0b950bebb2abf3d997c.png",
+            "来古-呆滞": "9a70b365e523f2379f395031ceefcebb75a45903.png",
+            "来古-疑问": "032fdc0d9d9fe6334776f6c39518a959b73b98f4.png",
+            "来古-震撼": "8b40f228675602a317d32007de6b795c101135ec.png",
+            "来古-注意": "4b671ba32a2581cf40e5cd41c67b111eb8010de0.png",
+            "初音未来_大笑": "8e7f71cda83ce407b0684702983399f8ed982f17.png",
+            "原神_哇": "8188ddf95bace929d382c7a83214afde79d83bfc.png",
+            "原神_哼": "91ed33b74bc36873c3ac8b2648f70d7ab6d8ab78.png",
+            "原神_嗯": "8b0a87e414f453a29730b6e0f45ca61f2f898688.png",
+            "原神_欸嘿": "8fba438fcbe0550877b04efd768d857082307c5e.png",
+            "原神_喝茶": "1de5789fbb3526ef7823c54db7081790a38e7044.png",
+            "原神_生气": "90a38c34742899f8e84138ed55f56cad3ba611fb.png",
+            "保卫萝卜_白眼": "9fce63f38288700bf7be84f3be336cf895ba0902.png",
+            "保卫萝卜_笔芯": "5ff2ed5cb71b02010018cc5910ac7052a03769af.png",
+            "保卫萝卜_哭哭": "7d249f7c990111d3e2982f7477af15b7eb29cbd9.png",
+            "保卫萝卜_哇": "5f2370e561c32d841245f7b1aab2eef43aeb9544.png",
+            "保卫萝卜_问号": "41eb93f09fc4a4d0692a310e8a1f85ba60e96060.png",
+            "无悔华夏_不愧是你": "c58002c32ee78d45366e126f294cb3149dd64ac2.png",
+            "无悔华夏_吃瓜": "273dcff577551bafff4f1eae18561f871e73a6ba.png",
+            "无悔华夏_达咩": "cffab383f47bab7f6736ba9c8d6ac098113410d9.png",
+            "无悔华夏_点赞": "b0f2e8db405ec667c3e6aaabd7c15155b6ea8710.png",
+            "无悔华夏_好耶": "324cd79784aeb37dbf2f47f68bbe8ed5d01f975e.png",
+            "奥比岛_搬砖": "1fab697214918d91087373a999cc7ef8040ddf85.png",
+            "奥比岛_点赞": "fb0b476fe2ff30cd59385ea7d616627ac114161f.png",
+            "奥比岛_击爪": "35bba1bb8f164c5e844155548438248e6eaa8382.png",
+            "奥比岛_委屈": "fda155e7c33b40dbb94c24644e0635d47b6ef3cc.png",
+            "奥比岛_喜欢": "ed64e0c81ee194138bd9df30c65077ed978fb88c.png",
+            // tv_小电视
+            "tv_白眼": "c1d59f439e379ee50eef488bcb5e5378e5044ea4.png",
+            "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
+            "tv_坏笑": "1f0b87f731a671079842116e0991c91c2c88645a.png",
+            "tv_难过": "87f46748d3f142ebc6586ff58860d0e2fc8263ba.png",
+            "tv_生气": "26702dcafdab5e8225b43ffd23c94ac1ff932654.png",
+            "tv_委屈": "d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png",
+            "tv_斜眼笑": "911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png",
+            "tv_呆": "fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png",
+            "tv_发怒": "34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png",
+            "tv_惊吓": "0d15c7e2ee58e935adc6a7193ee042388adc22af.png",
+            "tv_呕吐": "9f996894a39e282ccf5e66856af49483f81870f3.png",
+            "tv_思考": "90cf159733e558137ed20aa04d09964436f618a1.png",
+            "tv_微笑": "70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png",
+            "tv_疑问": "0793d949b18d7be716078349c202c15ff166f314.png",
+            "tv_大哭": "23269aeb35f99daee28dda129676f6e9ea87934f.png",
+            "tv_鼓掌": "1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png",
+            "tv_抠鼻": "c666f55e88d471e51bbd9fab9bb308110824a6eb.png",
+            "tv_亲亲": "a8111ad55953ef5e3be3327ef94eb4a39d535d06.png",
+            "tv_调皮": "b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png",
+            "tv_笑哭": "1abc628f6d4f4caf9d0e7800878f4697abbc8273.png",
+            "tv_晕": "5443c22b4d07fb1907ccc610c8e6db254f2461b7.png",
+            "tv_点赞": "f85c354995bd99e28fc76c869bfe42ba6438eff4.png",
+            "tv_害羞": "a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png",
+            "tv_睡着": "8b196675b53af58264f383c50ad0945048290b33.png",
+            "tv_色": "61822c7e9aae5da76475e7892534545336b23a6f.png",
+            "tv_吐血": "09dd16a7aa59b77baa1155d47484409624470c77.png",
+            "tv_无奈": "ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png",
+            "tv_再见": "180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png",
+            "tv_流汗": "cead1c351ab8d79e9f369605beb90148db0fbed3.png",
+            "tv_偷笑": "bb690d4107620f1c15cff29509db529a73aee261.png",
+            "tv_抓狂": "fe31c08edad661d63762b04e17b8d5ae3c71a757.png",
+            "tv_黑人问号": "45821a01f51bc867da9edbaa2e070410819a95b2.png",
+            "tv_困": "241ee304e44c0af029adceb294399391e4737ef2.png",
+            "tv_打脸": "56ab10b624063e966bfcb76ea5dc4794d87dfd47.png",
+            "tv_闭嘴": "c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png",
+            "tv_鄙视": "6e72339f346a692a495b123174b49e4e8e781303.png",
+            "tv_腼腆": "89712c0d4af73e67f89e35cbc518420380a7f6f4.png",
+            "tv_馋": "fc7e829b845c43c623c8b490ee3602b7f0e76a31.png",
+            "tv_可爱": "9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png",
+            "tv_发财": "34db290afd2963723c6eb3c4560667db7253a21a.png",
+            "tv_生病": "8b0ec90e6b86771092a498c54f09fc94621c1900.png",
+            "tv_流鼻血": "c32d39db2737f89b904ca32700d140a9241b0767.png",
+            "tv_尴尬": "7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png",
+            "tv_大佬": "093c1e2c490161aca397afc45573c877cdead616.png",
+            "tv_流泪": "7e71cde7858f0cd50d74b0264aa26db612a8a167.png",
+            "tv_冷漠": "b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png",
+            "tv_皱眉": "72ccad6679fea0d14cce648b4d818e09b8ffea2d.png",
+            "tv_鬼脸": "0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png",
+            "tv_调侃": "4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png",
+            "tv_目瞪口呆": "0b8cb81a68de5d5365212c99375e7ace3e7891b7.png",
+            // ... 更多表情
+        }
+        
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/head.jpg" class="soft-size--round soft-style--box" alt="n0boy">
+    
+    
+      <h2>n0boy</h2>
+    
+    
+      <p>我们无比的厌恶他人的傲慢，却无比的放纵自己的傲慢。</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>2</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        2
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/Android/" style="font-size: 15px;" class="tags-cloud-0">Android</a> <a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 15px;" class="tags-cloud-0">java反序列化</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+
+    <script type="text/javascript" src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/wrapImg.js"></script>
+
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/N0boy-0/" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2024 <a href="/" target="_blank">n0boy</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+<!-- copy button  -->
+<script src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/clipboard.min.js"></script>
+
+<!-- https://clipboardjs.com/ -->
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>

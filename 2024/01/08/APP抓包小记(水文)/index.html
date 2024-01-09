@@ -236,9 +236,9 @@
 <p>用户默认安装的证书位置：<code>/data/misc/user/0/cacerts-added/</code></p>
 <p>系统证书的安装位置：<code>/system/etc/security/cacerts/</code></p>
 <p>首先在安卓7.0之后默认不信任用户的证书，所以应该将证书拖到系统的目录，中间可能会出现read only权限错误，解决方法如下：</p>
-<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb shell mount -o rw,remount /system</span><br></pre></td></tr></table></figure>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">adb root</span><br><span class="line">adb remount</span><br></pre></td></tr></table></figure>
 
-<p>如果失败的话，就退出之后：<code>adb remount</code>，之后可以看到是没有报错的</p>
+<p><code>adb remount</code>就是将 <code>system</code>目录部分置于可写入的模式。</p>
 <p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240106153739805.png" alt="image-20240106153739805"></p>
 <p>最后重启模拟器就行，之后就可以看到证书已经被导入进来了</p>
 <p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240106153529687.png" alt="image-20240106153529687"></p>

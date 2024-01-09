@@ -218,7 +218,7 @@
 <p><strong>New Session Ticket, Change Cipher Spec, Encrypted Handshake Message</strong></p>
 <p>Session Ticket: 加密后的session status信息，包含了master key，以及cipher suite，这些信息会被用来生成新的session key，保证前向安全。同时这个信息只有服务器才能解密。</p>
 <p>Session Ticket LIfetime Hint: 保存时间指示，当时间到期时，客户端必须删除该ticket。</p>
-<p><img src="D:\lucifer\image\image-20240108163919666.png" alt="image-20240108163919666"></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108163919666.png" alt="image-20240108163919666"></p>
 <p>下面的内容和之前的内容一样，服务端给客户端发送加密Message，看客户端是否能够恢复Message</p>
 <p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240108164837846.png" alt="image-20240108164837846"></p>
 <p>如果双方都恢复成功，就可以进入加密通话了。</p>

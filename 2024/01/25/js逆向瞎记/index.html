@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="theme-color" content="#3367D6"/>
+  <link rel="apple-touch-icon" href="/icons-192.png">
+  <link rel="manifest" href="/manifest.json">
+  
+  <meta name="generator" content="Hexo 7.0.0">
+
+  
+
+  
+
+  
+    <meta name="author" content="n0boy">
+  
+
+  
+
+  
+
+  <title>js逆向瞎记+校园网登录分析 | n0boy&#39;s blog</title>
+
+  
+
+  
+    <link rel="shortcut icon" href="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/favicon.ico">
+  
+
+  <!--mathjax latex数学公式显示支持-->
+  
+  
+
+  
+
+  
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+  
+
+</head>
+<body>
+  <div class="root-container">
+    
+<!-- header container -->
+<header class="header-container post">
+  
+    <div class="post-image" style="background-image: url(https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/JS.jpg)"></div>
+  
+
+  <!-- navbar -->
+<nav class="navbar">
+  <div class="navbar-content">
+    <!-- logo -->
+    <div class="navbar-logo">
+      <a href="/">
+        
+          n0boy&#39;s blog
+        
+      </a>
+    </div>
+    <!-- link -->
+    <div class="navbar-link">
+      <div class="navbar-btn">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <ul class="navbar-list">
+        
+          <li class="navbar-list-item"><a href="/">首页</a></li>
+        
+          <li class="navbar-list-item"><a href="/links">友链</a></li>
+        
+          <li class="navbar-list-item"><a href="/about">关于</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+    <div class="header-content">
+      <div class="post-text layout-block">
+        <div class="layout-margin">
+          <h1 class="title-wrap">js逆向瞎记+校园网登录分析</h1>
+          <h2 class="title-sub-wrap">
+            <strong>n0boy</strong>
+            <span>发布于</span>
+            <time  class="article-date" datetime="2024-01-25T10:46:20.000Z" itemprop="datePublished">2024-01-25</time>
+          </h2>
+          
+          
+            <h2 id="/2024/01/25/js%E9%80%86%E5%90%91%E7%9E%8E%E8%AE%B0/" class="title-sub-wrap leancloud_visitors" data-flag-title="js逆向瞎记+校园网登录分析">
+              <em>文章访问量</em>
+              <i class="leancloud-visitors-count"></i>
+            </h2>
+          
+          <ul class="wrap-list dark">
+  
+</ul>
+          <ul class="wrap-list dark">
+  
+    <li><a href="/tags/javgscript/">🏷️ javgscript</a></li>
+  
+</ul>
+        </div>
+      </div>
+    </div>
+  
+
+  
+  
+  
+<!-- fancybox support -->
+
+  
+<link rel="stylesheet" href="https://cdn.bootcss.com/fancybox/3.5.7/jquery.fancybox.min.css">
+
+
+
+</header>
+
+    <!-- 文章 -->
+
+<!-- 文章内容 -->
+<div class="body-container">
+  <article class="content-container layout-block post-container">
+    <div class="article-info">
+      
+      
+      
+      
+      <section class="article-entry markdown-body layout-margin content-padding--large soft-size--large soft-style--box">
+        <blockquote>
+<p>最近忽然看到了js逆向感觉很有意思，简单学习了一点点的知识</p>
+</blockquote>
+<h1 id="猿人学js逆向Chanllenge"><a href="#猿人学js逆向Chanllenge" class="headerlink" title="猿人学js逆向Chanllenge"></a>猿人学js逆向Chanllenge</h1><p>平台地址：<code>https://match.yuanrenxue.cn/</code>，没错，我就是看到这个平台才开始了解的，这个里面有的混淆题目我也不会。</p>
+<h2 id="Task-12"><a href="#Task-12" class="headerlink" title="Task 12"></a>Task 12</h2><p>首先是第12题-入门级js（超级入门题目）</p>
+<p>访问看到连接看到url中有一个加密参数</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240124134303328.png" alt="image-20240124134303328"></p>
+<p>然后这里直接下一个XHR断点(“api&#x2F;match&#x2F;12”)，然后看堆栈，点进去看这个m参数是从哪里生成出来的，这个特别简单，在request中可以看到<code>&quot;m&quot;: btoa(&#39;yuanrenxue&#39; + window.page)</code><br>简单说一下<code>btoa()</code>是js中base64编码的函数，<code>atob()</code>是base64解码的函数。</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240124134953214.png" alt="image-20240124134953214"></p>
+<p>验证一下</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240124135623866.png" alt="image-20240124135623866"></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> execjs</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">cookies = &#123;</span><br><span class="line">      <span class="comment"># 写自己的cookie</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;authority&#x27;</span>: <span class="string">&#x27;match.yuanrenxue.cn&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;accept&#x27;</span>: <span class="string">&#x27;application/json, text/javascript, */*; q=0.01&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;accept-language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;cache-control&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;pragma&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;referer&#x27;</span>: <span class="string">&#x27;https://match.yuanrenxue.cn/match/12&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-ch-ua&#x27;</span>: <span class="string">&#x27;&quot;Not_A Brand&quot;;v=&quot;8&quot;, &quot;Chromium&quot;;v=&quot;120&quot;, &quot;Google Chrome&quot;;v=&quot;120&quot;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-ch-ua-mobile&#x27;</span>: <span class="string">&#x27;?0&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-ch-ua-platform&#x27;</span>: <span class="string">&#x27;&quot;Windows&quot;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-fetch-dest&#x27;</span>: <span class="string">&#x27;empty&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-fetch-mode&#x27;</span>: <span class="string">&#x27;cors&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-fetch-site&#x27;</span>: <span class="string">&#x27;same-origin&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;user-agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;x-requested-with&#x27;</span>: <span class="string">&#x27;XMLHttpRequest&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getData</span>(<span class="params">page</span>):</span><br><span class="line">    r = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;value&quot;: ([^&#125;]+)&#125;&#x27;</span>)</span><br><span class="line">    ctx = execjs.<span class="built_in">compile</span>(<span class="string">&quot;&quot;&quot;function getM(page)&#123;return btoa(&quot;yuanrenxue&quot;+page);&#125;&quot;&quot;&quot;</span>)</span><br><span class="line">    m = ctx.call(<span class="string">&#x27;getM&#x27;</span>, page)</span><br><span class="line">    params = &#123;</span><br><span class="line">        <span class="string">&#x27;page&#x27;</span>: page,</span><br><span class="line">        <span class="string">&#x27;m&#x27;</span>: m,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = requests.get(<span class="string">&#x27;https://match.yuanrenxue.cn/api/match/12&#x27;</span>, params=params, cookies=cookies,</span><br><span class="line">                            headers=headers).text</span><br><span class="line">    <span class="comment"># print(response)</span></span><br><span class="line">    <span class="keyword">return</span> r.findall(response)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        dataList = getData(i)</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> dataList:</span><br><span class="line">            <span class="built_in">sum</span> = <span class="built_in">int</span>(j) + <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line">    answerUrl = <span class="string">&quot;https://match.yuanrenxue.cn/api/answers?answer=&quot;</span>+<span class="built_in">str</span>(<span class="built_in">sum</span>)+<span class="string">&quot;&amp;id=12&quot;</span></span><br><span class="line">    response = requests.get(answerUrl,cookies=cookies,headers=headers)</span><br><span class="line">    <span class="built_in">print</span>(response.text)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240124142635032.png" alt="image-20240124142635032"></p>
+<h2 id="Task-13"><a href="#Task-13" class="headerlink" title="Task 13"></a>Task 13</h2><p>打开后随便点击下一页，然后看一下包，根据题目<code>入门cookie</code>，肯定是有一个cookie需要构造，cookie中有一个<code>yuanrenxue_cookie</code>，比较显眼。仔细看控制台有一个请求<code>/match/13</code>，第一次的结果浏览器没有办法查看，所以用fiddler抓一下包。<br><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240124185050486.png" alt="image-20240124185050486"></p>
+<p><code>location.href=location.pathname+location.search</code>这句js代码是刷新当前页面<br>这样就很简单了，只要每次获取到cookie添加一下就ok了</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">cookies = &#123;</span><br><span class="line">    <span class="comment"># &#x27;yuanrenxue_cookie&#x27;: &#x27;1706093844|geXtMJX1Y1YBLA3rXIS3pAYle4xBPPOFI6opisWIBTOYdBhYS2ylGXAWIjJXG6rx2WY3SVcRwaiti7pj49Fx9kU3v7Oxo&#x27;,</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">headers = &#123;</span><br><span class="line">    <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;application/json, text/javascript, */*; q=0.01&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Cache-Control&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Pragma&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;https://match.yuanrenxue.cn/match/13&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Sec-Fetch-Dest&#x27;</span>: <span class="string">&#x27;document&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Sec-Fetch-Mode&#x27;</span>: <span class="string">&#x27;navigate&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;Sec-Fetch-Site&#x27;</span>: <span class="string">&#x27;same-origin&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;X-Requested-With&#x27;</span>: <span class="string">&#x27;XMLHttpRequest&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-ch-ua&#x27;</span>: <span class="string">&#x27;&quot;Not_A Brand&quot;;v=&quot;8&quot;, &quot;Chromium&quot;;v=&quot;120&quot;, &quot;Google Chrome&quot;;v=&quot;120&quot;&#x27;</span>,</span><br><span class="line">    <span class="string">&#x27;sec-ch-ua-platform&#x27;</span>: <span class="string">&#x27;&quot;Windows&quot;&#x27;</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">r = re.<span class="built_in">compile</span>(<span class="string">&quot;\(\&#x27;([\S])\&#x27;\)&quot;</span>)</span><br><span class="line">r_data = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;value&quot;: ([^&#125;]+)&#125;&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getCookie</span>():</span><br><span class="line">    response = requests.get(<span class="string">&#x27;https://match.yuanrenxue.cn/match/13&#x27;</span>, cookies=cookies, headers=headers)</span><br><span class="line">    cookieJs = response.text</span><br><span class="line">    cookieList = r.findall(cookieJs)</span><br><span class="line">    cookie = <span class="string">&#x27;&#x27;</span>.join(cookieList)</span><br><span class="line">    <span class="keyword">if</span> <span class="string">&#x27;=&#x27;</span> <span class="keyword">in</span> cookie:</span><br><span class="line">        <span class="keyword">return</span> cookie.split(<span class="string">&#x27;=&#x27;</span>)[<span class="number">1</span>]</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    <span class="built_in">sum</span> = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, <span class="number">6</span>):</span><br><span class="line">        cookie = getCookie()</span><br><span class="line">        <span class="keyword">if</span> cookie != <span class="string">&#x27;&#x27;</span>:</span><br><span class="line">            cookies[<span class="string">&#x27;yuanrenxue_cookie&#x27;</span>] = cookie</span><br><span class="line">        response = requests.get(<span class="string">&#x27;https://match.yuanrenxue.cn/api/match/13?page=&#x27;</span> + <span class="built_in">str</span>(i), cookies=cookies,</span><br><span class="line">                                headers=headers).text</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> r_data.findall(response):</span><br><span class="line">            <span class="built_in">sum</span> = <span class="built_in">int</span>(j) + <span class="built_in">sum</span></span><br><span class="line"></span><br><span class="line">    answerUrl = <span class="string">&quot;https://match.yuanrenxue.cn/api/answers?answer=&quot;</span> + <span class="built_in">str</span>(<span class="built_in">sum</span>) + <span class="string">&quot;&amp;id=13&quot;</span></span><br><span class="line">    response = requests.get(answerUrl, cookies=cookies, headers=headers)</span><br><span class="line">    <span class="built_in">print</span>(response.text)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="学校登录参数分析"><a href="#学校登录参数分析" class="headerlink" title="学校登录参数分析"></a>学校登录参数分析</h1><p>登录请求的参数有两个需要构造，一个是<code>info</code>，一个是<code>chksum</code></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125122205992.png" alt="image-20240125122205992"></p>
+<p><code>password</code>是hmd5，下面有找这个参数的构造</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125170502630.png" alt="image-20240125170502630"></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125153353655.png" alt="image-20240125153353655"></p>
+<p>然后开始找参数加密的过程，首先是<code>info</code>，先全局搜索一下<code>info =</code>内容比较多，然后尝试搜一下<code>&#123;SRBX1&#125;</code>，直接定位到info的位置</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125122605108.png" alt="image-20240125122605108"></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125122630150.png" alt="image-20240125122630150"></p>
+<p>然后直接在这里打个断点，重新登录一下，看看这里的<code>info</code>和<code>token</code>是什么？</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125122841679.png" alt="image-20240125122841679"></p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125122928179.png" alt="image-20240125122928179"></p>
+<p>info就是登录的一些参数，顺着堆栈找一下token</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125123305995.png" alt="image-20240125123305995"></p>
+<p>这里看到token，好像是某个请求的响应，然后停止debugger，去网络抓到的包里看一下</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125123432686.png" alt="image-20240125123432686"></p>
+<p>只需要把<code>encode()</code>抠出来就能构造info参数了</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">s</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> c = a.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">var</span> v = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; c; i += <span class="number">4</span>) &#123;</span><br><span class="line">        v[i &gt;&gt; <span class="number">2</span>] = a.<span class="title function_">charCodeAt</span>(i) | a.<span class="title function_">charCodeAt</span>(i + <span class="number">1</span>) &lt;&lt; <span class="number">8</span> | a.<span class="title function_">charCodeAt</span>(i + <span class="number">2</span>) &lt;&lt; <span class="number">16</span> | a.<span class="title function_">charCodeAt</span>(i + <span class="number">3</span>) &lt;&lt; <span class="number">24</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (b) v[v.<span class="property">length</span>] = c;</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">encode</span>(<span class="params">str, key</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (str === <span class="string">&#x27;&#x27;</span>) <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="keyword">var</span> v = <span class="title function_">s</span>(str, <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">var</span> k = <span class="title function_">s</span>(key, <span class="literal">false</span>);</span><br><span class="line">    <span class="keyword">if</span> (k.<span class="property">length</span> &lt; <span class="number">4</span>) k.<span class="property">length</span> = <span class="number">4</span>;</span><br><span class="line">    <span class="keyword">var</span> n = v.<span class="property">length</span> - <span class="number">1</span>,</span><br><span class="line">        z = v[n],</span><br><span class="line">        y = v[<span class="number">0</span>],</span><br><span class="line">        c = <span class="number">0x86014019</span> | <span class="number">0x183639A0</span>,</span><br><span class="line">        m,</span><br><span class="line">        e,</span><br><span class="line">        p,</span><br><span class="line">        q = <span class="title class_">Math</span>.<span class="title function_">floor</span>(<span class="number">6</span> + <span class="number">52</span> / (n + <span class="number">1</span>)),</span><br><span class="line">        d = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (<span class="number">0</span> &lt; q--) &#123;</span><br><span class="line">        d = d + c &amp; (<span class="number">0x8CE0D9BF</span> | <span class="number">0x731F2640</span>);</span><br><span class="line">        e = d &gt;&gt;&gt; <span class="number">2</span> &amp; <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (p = <span class="number">0</span>; p &lt; n; p++) &#123;</span><br><span class="line">            y = v[p + <span class="number">1</span>];</span><br><span class="line">            m = z &gt;&gt;&gt; <span class="number">5</span> ^ y &lt;&lt; <span class="number">2</span>;</span><br><span class="line">            m += y &gt;&gt;&gt; <span class="number">3</span> ^ z &lt;&lt; <span class="number">4</span> ^ (d ^ y);</span><br><span class="line">            m += k[p &amp; <span class="number">3</span> ^ e] ^ z;</span><br><span class="line">            z = v[p] = v[p] + m &amp; (<span class="number">0xEFB8D130</span> | <span class="number">0x10472ECF</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        y = v[<span class="number">0</span>];</span><br><span class="line">        m = z &gt;&gt;&gt; <span class="number">5</span> ^ y &lt;&lt; <span class="number">2</span>;</span><br><span class="line">        m += y &gt;&gt;&gt; <span class="number">3</span> ^ z &lt;&lt; <span class="number">4</span> ^ (d ^ y);</span><br><span class="line">        m += k[p &amp; <span class="number">3</span> ^ e] ^ z;</span><br><span class="line">        z = v[n] = v[n] + m &amp; (<span class="number">0xBB390742</span> | <span class="number">0x44C6F8BD</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">l</span>(v, <span class="literal">false</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">l</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> d = a.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">var</span> c = d - <span class="number">1</span> &lt;&lt; <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (b) &#123;</span><br><span class="line">        <span class="keyword">var</span> m = a[d - <span class="number">1</span>];</span><br><span class="line">        <span class="keyword">if</span> (m &lt; c - <span class="number">3</span> || m &gt; c) <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">        c = m;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; d; i++) &#123;</span><br><span class="line">        a[i] = <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(a[i] &amp; <span class="number">0xff</span>, a[i] &gt;&gt;&gt; <span class="number">8</span> &amp; <span class="number">0xff</span>, a[i] &gt;&gt;&gt; <span class="number">16</span> &amp; <span class="number">0xff</span>, a[i] &gt;&gt;&gt; <span class="number">24</span> &amp; <span class="number">0xff</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> b ? a.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>).<span class="title function_">substring</span>(<span class="number">0</span>, c) : a.<span class="title function_">join</span>(<span class="string">&#x27;&#x27;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125124203193.png" alt="image-20240125124203193"></p>
+<p>能跑的通，然后去验证一下是否正确，很遗憾结果不一样，我猜测是base64的问题<br><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125124750932.png" alt="image-20240125124750932"></p>
+<p>果然base64编码结果不一样，那就只能偷base64了，这里的base64与正常的加密不一致，直接找到位置去偷：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> _ALPHA = <span class="string">&quot;LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA&quot;</span>;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_encode</span>(<span class="params">s</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="variable language_">arguments</span>.<span class="property">length</span> !== <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="string">&quot;SyntaxError: exactly one argument required&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">    s = <span class="title class_">String</span>(s);</span><br><span class="line">    <span class="keyword">var</span> i, b10, x = [], imax = s.<span class="property">length</span> - s.<span class="property">length</span> % <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">if</span> (s.<span class="property">length</span> === <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> s</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; imax; i += <span class="number">3</span>) &#123;</span><br><span class="line">        b10 = (<span class="title function_">_getbyte</span>(s, i) &lt;&lt; <span class="number">16</span>) | (<span class="title function_">_getbyte</span>(s, i + <span class="number">1</span>) &lt;&lt; <span class="number">8</span>) | <span class="title function_">_getbyte</span>(s, i + <span class="number">2</span>);</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>(b10 &gt;&gt; <span class="number">18</span>));</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>((b10 &gt;&gt; <span class="number">12</span>) &amp; <span class="number">63</span>));</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>((b10 &gt;&gt; <span class="number">6</span>) &amp; <span class="number">63</span>));</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>(b10 &amp; <span class="number">63</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">switch</span> (s.<span class="property">length</span> - imax) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">1</span>:</span><br><span class="line">        b10 = <span class="title function_">_getbyte</span>(s, i) &lt;&lt; <span class="number">16</span>;</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>(b10 &gt;&gt; <span class="number">18</span>) + _ALPHA.<span class="title function_">charAt</span>((b10 &gt;&gt; <span class="number">12</span>) &amp; <span class="number">63</span>) + _PADCHAR + _PADCHAR);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> <span class="number">2</span>:</span><br><span class="line">        b10 = (<span class="title function_">_getbyte</span>(s, i) &lt;&lt; <span class="number">16</span>) | (<span class="title function_">_getbyte</span>(s, i + <span class="number">1</span>) &lt;&lt; <span class="number">8</span>);</span><br><span class="line">        x.<span class="title function_">push</span>(_ALPHA.<span class="title function_">charAt</span>(b10 &gt;&gt; <span class="number">18</span>) + _ALPHA.<span class="title function_">charAt</span>((b10 &gt;&gt; <span class="number">12</span>) &amp; <span class="number">63</span>) + _ALPHA.<span class="title function_">charAt</span>((b10 &gt;&gt; <span class="number">6</span>) &amp; <span class="number">63</span>) + _PADCHAR);</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> x.<span class="title function_">join</span>(<span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">_getbyte</span>(<span class="params">s, i</span>) &#123;</span><br><span class="line"><span class="keyword">var</span> x = s.<span class="title function_">charCodeAt</span>(i);</span><br><span class="line"><span class="keyword">if</span> (x &gt; <span class="number">255</span>) &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="string">&quot;INVALID_CHARACTER_ERR: DOM Exception 5&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> x</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>到这里，info参数就解决了，然后是<code>chksum</code>，全局搜一下，打断点</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125143942081.png" alt="image-20240125143942081"></p>
+<p>传入的参数有一堆，往上翻一翻，看一下这个字符串是怎么构造出来的</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125144441112.png" alt="image-20240125144441112"></p>
+<p>好家伙，一顿乱拼</p>
+<p><img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/image-20240125144356187.png" alt="image-20240125144356187"></p>
+<p>这里的i就是上面的<code>info</code>参数，type &#x3D; 1 应该是固定的，n &#x3D; 200，ac_id &#x3D; 0，hmd5 &#x3D; md5(password, token) 此处的password为明文</p>
+<p>下面为自己写的垃圾代码：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// md5.js</span></span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">t</span>(<span class="params">n, t</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> r = (<span class="number">65535</span> &amp; n) + (<span class="number">65535</span> &amp; t);</span><br><span class="line">        <span class="keyword">return</span> (n &gt;&gt; <span class="number">16</span>) + (t &gt;&gt; <span class="number">16</span>) + (r &gt;&gt; <span class="number">16</span>) &lt;&lt; <span class="number">16</span> | <span class="number">65535</span> &amp; r</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">r</span>(<span class="params">n, t</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> n &lt;&lt; t | n &gt;&gt;&gt; <span class="number">32</span> - t</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">e</span>(<span class="params">n, e, o, u, c, f</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">t</span>(<span class="title function_">r</span>(<span class="title function_">t</span>(<span class="title function_">t</span>(e, n), <span class="title function_">t</span>(u, f)), c), o)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">o</span>(<span class="params">n, t, r, o, u, c, f</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">e</span>(t &amp; r | ~t &amp; o, n, t, u, c, f)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">u</span>(<span class="params">n, t, r, o, u, c, f</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">e</span>(t &amp; o | r &amp; ~o, n, t, u, c, f)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">c</span>(<span class="params">n, t, r, o, u, c, f</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">e</span>(t ^ r ^ o, n, t, u, c, f)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">f</span>(<span class="params">n, t, r, o, u, c, f</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">e</span>(r ^ (t | ~o), n, t, u, c, f)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">i</span>(<span class="params">n, r</span>) &#123;</span><br><span class="line">        n[r &gt;&gt; <span class="number">5</span>] |= <span class="number">128</span> &lt;&lt; r % <span class="number">32</span>,</span><br><span class="line">        n[<span class="number">14</span> + (r + <span class="number">64</span> &gt;&gt;&gt; <span class="number">9</span> &lt;&lt; <span class="number">4</span>)] = r;</span><br><span class="line">        <span class="keyword">var</span> e, i, a, d, h, l = <span class="number">1732584193</span>, g = -<span class="number">271733879</span>, v = -<span class="number">1732584194</span>, m = <span class="number">271733878</span>;</span><br><span class="line">        <span class="keyword">for</span> (e = <span class="number">0</span>; e &lt; n.<span class="property">length</span>; e += <span class="number">16</span>)</span><br><span class="line">            i = l,</span><br><span class="line">            a = g,</span><br><span class="line">            d = v,</span><br><span class="line">            h = m,</span><br><span class="line">            g = <span class="title function_">f</span>(g = <span class="title function_">f</span>(g = <span class="title function_">f</span>(g = <span class="title function_">f</span>(g = <span class="title function_">c</span>(g = <span class="title function_">c</span>(g = <span class="title function_">c</span>(g = <span class="title function_">c</span>(g = <span class="title function_">u</span>(g = <span class="title function_">u</span>(g = <span class="title function_">u</span>(g = <span class="title function_">u</span>(g = <span class="title function_">o</span>(g = <span class="title function_">o</span>(g = <span class="title function_">o</span>(g = <span class="title function_">o</span>(g, v = <span class="title function_">o</span>(v, m = <span class="title function_">o</span>(m, l = <span class="title function_">o</span>(l, g, v, m, n[e], <span class="number">7</span>, -<span class="number">680876936</span>), g, v, n[e + <span class="number">1</span>], <span class="number">12</span>, -<span class="number">389564586</span>), l, g, n[e + <span class="number">2</span>], <span class="number">17</span>, <span class="number">606105819</span>), m, l, n[e + <span class="number">3</span>], <span class="number">22</span>, -<span class="number">1044525330</span>), v = <span class="title function_">o</span>(v, m = <span class="title function_">o</span>(m, l = <span class="title function_">o</span>(l, g, v, m, n[e + <span class="number">4</span>], <span class="number">7</span>, -<span class="number">176418897</span>), g, v, n[e + <span class="number">5</span>], <span class="number">12</span>, <span class="number">1200080426</span>), l, g, n[e + <span class="number">6</span>], <span class="number">17</span>, -<span class="number">1473231341</span>), m, l, n[e + <span class="number">7</span>], <span class="number">22</span>, -<span class="number">45705983</span>), v = <span class="title function_">o</span>(v, m = <span class="title function_">o</span>(m, l = <span class="title function_">o</span>(l, g, v, m, n[e + <span class="number">8</span>], <span class="number">7</span>, <span class="number">1770035416</span>), g, v, n[e + <span class="number">9</span>], <span class="number">12</span>, -<span class="number">1958414417</span>), l, g, n[e + <span class="number">10</span>], <span class="number">17</span>, -<span class="number">42063</span>), m, l, n[e + <span class="number">11</span>], <span class="number">22</span>, -<span class="number">1990404162</span>), v = <span class="title function_">o</span>(v, m = <span class="title function_">o</span>(m, l = <span class="title function_">o</span>(l, g, v, m, n[e + <span class="number">12</span>], <span class="number">7</span>, <span class="number">1804603682</span>), g, v, n[e + <span class="number">13</span>], <span class="number">12</span>, -<span class="number">40341101</span>), l, g, n[e + <span class="number">14</span>], <span class="number">17</span>, -<span class="number">1502002290</span>), m, l, n[e + <span class="number">15</span>], <span class="number">22</span>, <span class="number">1236535329</span>), v = <span class="title function_">u</span>(v, m = <span class="title function_">u</span>(m, l = <span class="title function_">u</span>(l, g, v, m, n[e + <span class="number">1</span>], <span class="number">5</span>, -<span class="number">165796510</span>), g, v, n[e + <span class="number">6</span>], <span class="number">9</span>, -<span class="number">1069501632</span>), l, g, n[e + <span class="number">11</span>], <span class="number">14</span>, <span class="number">643717713</span>), m, l, n[e], <span class="number">20</span>, -<span class="number">373897302</span>), v = <span class="title function_">u</span>(v, m = <span class="title function_">u</span>(m, l = <span class="title function_">u</span>(l, g, v, m, n[e + <span class="number">5</span>], <span class="number">5</span>, -<span class="number">701558691</span>), g, v, n[e + <span class="number">10</span>], <span class="number">9</span>, <span class="number">38016083</span>), l, g, n[e + <span class="number">15</span>], <span class="number">14</span>, -<span class="number">660478335</span>), m, l, n[e + <span class="number">4</span>], <span class="number">20</span>, -<span class="number">405537848</span>), v = <span class="title function_">u</span>(v, m = <span class="title function_">u</span>(m, l = <span class="title function_">u</span>(l, g, v, m, n[e + <span class="number">9</span>], <span class="number">5</span>, <span class="number">568446438</span>), g, v, n[e + <span class="number">14</span>], <span class="number">9</span>, -<span class="number">1019803690</span>), l, g, n[e + <span class="number">3</span>], <span class="number">14</span>, -<span class="number">187363961</span>), m, l, n[e + <span class="number">8</span>], <span class="number">20</span>, <span class="number">1163531501</span>), v = <span class="title function_">u</span>(v, m = <span class="title function_">u</span>(m, l = <span class="title function_">u</span>(l, g, v, m, n[e + <span class="number">13</span>], <span class="number">5</span>, -<span class="number">1444681467</span>), g, v, n[e + <span class="number">2</span>], <span class="number">9</span>, -<span class="number">51403784</span>), l, g, n[e + <span class="number">7</span>], <span class="number">14</span>, <span class="number">1735328473</span>), m, l, n[e + <span class="number">12</span>], <span class="number">20</span>, -<span class="number">1926607734</span>), v = <span class="title function_">c</span>(v, m = <span class="title function_">c</span>(m, l = <span class="title function_">c</span>(l, g, v, m, n[e + <span class="number">5</span>], <span class="number">4</span>, -<span class="number">378558</span>), g, v, n[e + <span class="number">8</span>], <span class="number">11</span>, -<span class="number">2022574463</span>), l, g, n[e + <span class="number">11</span>], <span class="number">16</span>, <span class="number">1839030562</span>), m, l, n[e + <span class="number">14</span>], <span class="number">23</span>, -<span class="number">35309556</span>), v = <span class="title function_">c</span>(v, m = <span class="title function_">c</span>(m, l = <span class="title function_">c</span>(l, g, v, m, n[e + <span class="number">1</span>], <span class="number">4</span>, -<span class="number">1530992060</span>), g, v, n[e + <span class="number">4</span>], <span class="number">11</span>, <span class="number">1272893353</span>), l, g, n[e + <span class="number">7</span>], <span class="number">16</span>, -<span class="number">155497632</span>), m, l, n[e + <span class="number">10</span>], <span class="number">23</span>, -<span class="number">1094730640</span>), v = <span class="title function_">c</span>(v, m = <span class="title function_">c</span>(m, l = <span class="title function_">c</span>(l, g, v, m, n[e + <span class="number">13</span>], <span class="number">4</span>, <span class="number">681279174</span>), g, v, n[e], <span class="number">11</span>, -<span class="number">358537222</span>), l, g, n[e + <span class="number">3</span>], <span class="number">16</span>, -<span class="number">722521979</span>), m, l, n[e + <span class="number">6</span>], <span class="number">23</span>, <span class="number">76029189</span>), v = <span class="title function_">c</span>(v, m = <span class="title function_">c</span>(m, l = <span class="title function_">c</span>(l, g, v, m, n[e + <span class="number">9</span>], <span class="number">4</span>, -<span class="number">640364487</span>), g, v, n[e + <span class="number">12</span>], <span class="number">11</span>, -<span class="number">421815835</span>), l, g, n[e + <span class="number">15</span>], <span class="number">16</span>, <span class="number">530742520</span>), m, l, n[e + <span class="number">2</span>], <span class="number">23</span>, -<span class="number">995338651</span>), v = <span class="title function_">f</span>(v, m = <span class="title function_">f</span>(m, l = <span class="title function_">f</span>(l, g, v, m, n[e], <span class="number">6</span>, -<span class="number">198630844</span>), g, v, n[e + <span class="number">7</span>], <span class="number">10</span>, <span class="number">1126891415</span>), l, g, n[e + <span class="number">14</span>], <span class="number">15</span>, -<span class="number">1416354905</span>), m, l, n[e + <span class="number">5</span>], <span class="number">21</span>, -<span class="number">57434055</span>), v = <span class="title function_">f</span>(v, m = <span class="title function_">f</span>(m, l = <span class="title function_">f</span>(l, g, v, m, n[e + <span class="number">12</span>], <span class="number">6</span>, <span class="number">1700485571</span>), g, v, n[e + <span class="number">3</span>], <span class="number">10</span>, -<span class="number">1894986606</span>), l, g, n[e + <span class="number">10</span>], <span class="number">15</span>, -<span class="number">1051523</span>), m, l, n[e + <span class="number">1</span>], <span class="number">21</span>, -<span class="number">2054922799</span>), v = <span class="title function_">f</span>(v, m = <span class="title function_">f</span>(m, l = <span class="title function_">f</span>(l, g, v, m, n[e + <span class="number">8</span>], <span class="number">6</span>, <span class="number">1873313359</span>), g, v, n[e + <span class="number">15</span>], <span class="number">10</span>, -<span class="number">30611744</span>), l, g, n[e + <span class="number">6</span>], <span class="number">15</span>, -<span class="number">1560198380</span>), m, l, n[e + <span class="number">13</span>], <span class="number">21</span>, <span class="number">1309151649</span>), v = <span class="title function_">f</span>(v, m = <span class="title function_">f</span>(m, l = <span class="title function_">f</span>(l, g, v, m, n[e + <span class="number">4</span>], <span class="number">6</span>, -<span class="number">145523070</span>), g, v, n[e + <span class="number">11</span>], <span class="number">10</span>, -<span class="number">1120210379</span>), l, g, n[e + <span class="number">2</span>], <span class="number">15</span>, <span class="number">718787259</span>), m, l, n[e + <span class="number">9</span>], <span class="number">21</span>, -<span class="number">343485551</span>),</span><br><span class="line">            l = <span class="title function_">t</span>(l, i),</span><br><span class="line">            g = <span class="title function_">t</span>(g, a),</span><br><span class="line">            v = <span class="title function_">t</span>(v, d),</span><br><span class="line">            m = <span class="title function_">t</span>(m, h);</span><br><span class="line">        <span class="keyword">return</span> [l, g, v, m]</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">a</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> t, r = <span class="string">&quot;&quot;</span>, e = <span class="number">32</span> * n.<span class="property">length</span>;</span><br><span class="line">        <span class="keyword">for</span> (t = <span class="number">0</span>; t &lt; e; t += <span class="number">8</span>)</span><br><span class="line">            r += <span class="title class_">String</span>.<span class="title function_">fromCharCode</span>(n[t &gt;&gt; <span class="number">5</span>] &gt;&gt;&gt; t % <span class="number">32</span> &amp; <span class="number">255</span>);</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">d</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> t, r = [];</span><br><span class="line">        <span class="keyword">for</span> (r[(n.<span class="property">length</span> &gt;&gt; <span class="number">2</span>) - <span class="number">1</span>] = <span class="keyword">void</span> <span class="number">0</span>,</span><br><span class="line">        t = <span class="number">0</span>; t &lt; r.<span class="property">length</span>; t += <span class="number">1</span>)</span><br><span class="line">            r[t] = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">var</span> e = <span class="number">8</span> * n.<span class="property">length</span>;</span><br><span class="line">        <span class="keyword">for</span> (t = <span class="number">0</span>; t &lt; e; t += <span class="number">8</span>)</span><br><span class="line">            r[t &gt;&gt; <span class="number">5</span>] |= (<span class="number">255</span> &amp; n.<span class="title function_">charCodeAt</span>(t / <span class="number">8</span>)) &lt;&lt; t % <span class="number">32</span>;</span><br><span class="line">        <span class="keyword">return</span> r</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">h</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">a</span>(<span class="title function_">i</span>(<span class="title function_">d</span>(n), <span class="number">8</span> * n.<span class="property">length</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">l</span>(<span class="params">n, t</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> r, e, o = <span class="title function_">d</span>(n), u = [], c = [];</span><br><span class="line">        <span class="keyword">for</span> (u[<span class="number">15</span>] = c[<span class="number">15</span>] = <span class="keyword">void</span> <span class="number">0</span>,</span><br><span class="line">        o.<span class="property">length</span> &gt; <span class="number">16</span> &amp;&amp; (o = <span class="title function_">i</span>(o, <span class="number">8</span> * n.<span class="property">length</span>)),</span><br><span class="line">        r = <span class="number">0</span>; r &lt; <span class="number">16</span>; r += <span class="number">1</span>)</span><br><span class="line">            u[r] = <span class="number">909522486</span> ^ o[r],</span><br><span class="line">            c[r] = <span class="number">1549556828</span> ^ o[r];</span><br><span class="line">        <span class="keyword">return</span> e = <span class="title function_">i</span>(u.<span class="title function_">concat</span>(<span class="title function_">d</span>(t)), <span class="number">512</span> + <span class="number">8</span> * t.<span class="property">length</span>),</span><br><span class="line">        <span class="title function_">a</span>(<span class="title function_">i</span>(c.<span class="title function_">concat</span>(e), <span class="number">640</span>))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">g</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> t, r, e = <span class="string">&quot;&quot;</span>;</span><br><span class="line">        <span class="keyword">for</span> (r = <span class="number">0</span>; r &lt; n.<span class="property">length</span>; r += <span class="number">1</span>)</span><br><span class="line">            t = n.<span class="title function_">charCodeAt</span>(r),</span><br><span class="line">            e += <span class="string">&quot;0123456789abcdef&quot;</span>.<span class="title function_">charAt</span>(t &gt;&gt;&gt; <span class="number">4</span> &amp; <span class="number">15</span>) + <span class="string">&quot;0123456789abcdef&quot;</span>.<span class="title function_">charAt</span>(<span class="number">15</span> &amp; t);</span><br><span class="line">        <span class="keyword">return</span> e</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">v</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">unescape</span>(<span class="built_in">encodeURIComponent</span>(n))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">m</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">h</span>(<span class="title function_">v</span>(n))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">p</span>(<span class="params">n</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">g</span>(<span class="title function_">m</span>(n))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">s</span>(<span class="params">n, t</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">l</span>(<span class="title function_">v</span>(n), <span class="title function_">v</span>(t))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">C</span>(<span class="params">n, t</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">g</span>(<span class="title function_">s</span>(n, t))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">A</span>(<span class="params">n, t, r</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> t ? r ? <span class="title function_">s</span>(t, n) : <span class="title function_">C</span>(t, n) : r ? <span class="title function_">m</span>(n) : <span class="title function_">p</span>(n)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> hashlib</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> execjs</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">millis = <span class="built_in">int</span>(<span class="built_in">round</span>(time.time() * <span class="number">1000</span>))</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getInfo</span>(<span class="params">data, token</span>):</span><br><span class="line">    info_code = <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">var _ALPHA = &quot;LVoJPiCN2R8G90yg+hmFHuacZ1OWMnrsSTXkYpUq/3dlbfKwv6xztjI7DeBE45QA&quot;;</span></span><br><span class="line"><span class="string">function s(a, b) &#123;</span></span><br><span class="line"><span class="string">    var c = a.length;</span></span><br><span class="line"><span class="string">    var v = [];</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    for (var i = 0; i &lt; c; i += 4) &#123;</span></span><br><span class="line"><span class="string">        v[i &gt;&gt; 2] = a.charCodeAt(i) | a.charCodeAt(i + 1) &lt;&lt; 8 | a.charCodeAt(i + 2) &lt;&lt; 16 | a.charCodeAt(i + 3) &lt;&lt; 24;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if (b) v[v.length] = c;</span></span><br><span class="line"><span class="string">    return v;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function encode(str, key) &#123;</span></span><br><span class="line"><span class="string">    if (str === &#x27;&#x27;) return &#x27;&#x27;;</span></span><br><span class="line"><span class="string">    var v = s(str, true);</span></span><br><span class="line"><span class="string">    var k = s(key, false);</span></span><br><span class="line"><span class="string">    if (k.length &lt; 4) k.length = 4;</span></span><br><span class="line"><span class="string">    var n = v.length - 1,</span></span><br><span class="line"><span class="string">        z = v[n],</span></span><br><span class="line"><span class="string">        y = v[0],</span></span><br><span class="line"><span class="string">        c = 0x86014019 | 0x183639A0,</span></span><br><span class="line"><span class="string">        m,</span></span><br><span class="line"><span class="string">        e,</span></span><br><span class="line"><span class="string">        p,</span></span><br><span class="line"><span class="string">        q = Math.floor(6 + 52 / (n + 1)),</span></span><br><span class="line"><span class="string">        d = 0;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    while (0 &lt; q--) &#123;</span></span><br><span class="line"><span class="string">        d = d + c &amp; (0x8CE0D9BF | 0x731F2640);</span></span><br><span class="line"><span class="string">        e = d &gt;&gt;&gt; 2 &amp; 3;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        for (p = 0; p &lt; n; p++) &#123;</span></span><br><span class="line"><span class="string">            y = v[p + 1];</span></span><br><span class="line"><span class="string">            m = z &gt;&gt;&gt; 5 ^ y &lt;&lt; 2;</span></span><br><span class="line"><span class="string">            m += y &gt;&gt;&gt; 3 ^ z &lt;&lt; 4 ^ (d ^ y);</span></span><br><span class="line"><span class="string">            m += k[p &amp; 3 ^ e] ^ z;</span></span><br><span class="line"><span class="string">            z = v[p] = v[p] + m &amp; (0xEFB8D130 | 0x10472ECF);</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        y = v[0];</span></span><br><span class="line"><span class="string">        m = z &gt;&gt;&gt; 5 ^ y &lt;&lt; 2;</span></span><br><span class="line"><span class="string">        m += y &gt;&gt;&gt; 3 ^ z &lt;&lt; 4 ^ (d ^ y);</span></span><br><span class="line"><span class="string">        m += k[p &amp; 3 ^ e] ^ z;</span></span><br><span class="line"><span class="string">        z = v[n] = v[n] + m &amp; (0xBB390742 | 0x44C6F8BD);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    return l(v, false);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">function l(a, b) &#123;</span></span><br><span class="line"><span class="string">    var d = a.length;</span></span><br><span class="line"><span class="string">    var c = d - 1 &lt;&lt; 2;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    if (b) &#123;</span></span><br><span class="line"><span class="string">        var m = a[d - 1];</span></span><br><span class="line"><span class="string">        if (m &lt; c - 3 || m &gt; c) return null;</span></span><br><span class="line"><span class="string">        c = m;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    for (var i = 0; i &lt; d; i++) &#123;</span></span><br><span class="line"><span class="string">        a[i] = String.fromCharCode(a[i] &amp; 0xff, a[i] &gt;&gt;&gt; 8 &amp; 0xff, a[i] &gt;&gt;&gt; 16 &amp; 0xff, a[i] &gt;&gt;&gt; 24 &amp; 0xff);</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    return b ? a.join(&#x27;&#x27;).substring(0, c) : a.join(&#x27;&#x27;);</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function _encode(s) &#123;</span></span><br><span class="line"><span class="string">        if (arguments.length !== 1) &#123;</span></span><br><span class="line"><span class="string">            throw &quot;SyntaxError: exactly one argument required&quot;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        s = String(s);</span></span><br><span class="line"><span class="string">        var i, b10, x = [], imax = s.length - s.length % 3;</span></span><br><span class="line"><span class="string">        if (s.length === 0) &#123;</span></span><br><span class="line"><span class="string">            return s</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        for (i = 0; i &lt; imax; i += 3) &#123;</span></span><br><span class="line"><span class="string">            b10 = (_getbyte(s, i) &lt;&lt; 16) | (_getbyte(s, i + 1) &lt;&lt; 8) | _getbyte(s, i + 2);</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt(b10 &gt;&gt; 18));</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt((b10 &gt;&gt; 12) &amp; 63));</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt((b10 &gt;&gt; 6) &amp; 63));</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt(b10 &amp; 63))</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        switch (s.length - imax) &#123;</span></span><br><span class="line"><span class="string">        case 1:</span></span><br><span class="line"><span class="string">            b10 = _getbyte(s, i) &lt;&lt; 16;</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt(b10 &gt;&gt; 18) + _ALPHA.charAt((b10 &gt;&gt; 12) &amp; 63) + _PADCHAR + _PADCHAR);</span></span><br><span class="line"><span class="string">            break;</span></span><br><span class="line"><span class="string">        case 2:</span></span><br><span class="line"><span class="string">            b10 = (_getbyte(s, i) &lt;&lt; 16) | (_getbyte(s, i + 1) &lt;&lt; 8);</span></span><br><span class="line"><span class="string">            x.push(_ALPHA.charAt(b10 &gt;&gt; 18) + _ALPHA.charAt((b10 &gt;&gt; 12) &amp; 63) + _ALPHA.charAt((b10 &gt;&gt; 6) &amp; 63) + _PADCHAR);</span></span><br><span class="line"><span class="string">            break</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">        return x.join(&quot;&quot;)</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">function _getbyte(s, i) &#123;</span></span><br><span class="line"><span class="string">    var x = s.charCodeAt(i);</span></span><br><span class="line"><span class="string">    if (x &gt; 255) &#123;</span></span><br><span class="line"><span class="string">        throw &quot;INVALID_CHARACTER_ERR: DOM Exception 5&quot;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    return x</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">function info(data,token)&#123;</span></span><br><span class="line"><span class="string">    return _encode(encode(data,token));</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    ctx = execjs.<span class="built_in">compile</span>(info_code)</span><br><span class="line"></span><br><span class="line">    result = ctx.call(<span class="string">&quot;info&quot;</span>,</span><br><span class="line">                      data,</span><br><span class="line">                      token)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;&#123;SRBX1&#125;&#x27;</span> + result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getChksum</span>(<span class="params">username, hmd5, token, ip, info</span>):</span><br><span class="line">    <span class="built_in">str</span> = token + username</span><br><span class="line">    <span class="built_in">str</span> += token + hmd5</span><br><span class="line">    <span class="built_in">str</span> += token + <span class="string">&#x27;0&#x27;</span>  <span class="comment"># ac_id</span></span><br><span class="line">    <span class="built_in">str</span> += token + ip</span><br><span class="line">    <span class="built_in">str</span> += token + <span class="string">&#x27;200&#x27;</span>  <span class="comment"># n</span></span><br><span class="line">    <span class="built_in">str</span> += token + <span class="string">&#x27;1&#x27;</span>  <span class="comment"># type</span></span><br><span class="line">    <span class="built_in">str</span> += token + info</span><br><span class="line">    <span class="keyword">return</span> hashlib.sha1(<span class="built_in">str</span>.encode(<span class="string">&quot;utf-8&quot;</span>)).hexdigest()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getToken</span>(<span class="params">username, ip,callback</span>):</span><br><span class="line">    re_token = re.<span class="built_in">compile</span>(<span class="string">&#x27;&quot;challenge&quot;:&quot;([^&quot;]+)&quot;&#x27;</span>)</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Cache-Control&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">        <span class="comment"># &#x27;Cookie&#x27;: &#x27;lang=zh-CN&#x27;,</span></span><br><span class="line">        <span class="string">&#x27;Pragma&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;https://login.hdu.edu.cn/srun_portal_pc?ac_id=0&amp;theme=pro&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Dest&#x27;</span>: <span class="string">&#x27;empty&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Mode&#x27;</span>: <span class="string">&#x27;cors&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Site&#x27;</span>: <span class="string">&#x27;same-origin&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;X-Requested-With&#x27;</span>: <span class="string">&#x27;XMLHttpRequest&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua&#x27;</span>: <span class="string">&#x27;&quot;Not A(Brand&quot;;v=&quot;99&quot;, &quot;Google Chrome&quot;;v=&quot;121&quot;, &quot;Chromium&quot;;v=&quot;121&quot;&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-mobile&#x27;</span>: <span class="string">&#x27;?0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-platform&#x27;</span>: <span class="string">&#x27;&quot;Windows&quot;&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    params = &#123;</span><br><span class="line">        <span class="string">&#x27;callback&#x27;</span>: callback+<span class="string">&#x27;_&#x27;</span>+<span class="built_in">str</span>(millis),</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: username,</span><br><span class="line">        <span class="string">&#x27;ip&#x27;</span>: ip,</span><br><span class="line">        <span class="string">&#x27;_&#x27;</span>: millis+<span class="number">2</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    session = requests.session()</span><br><span class="line">    response = session.get(<span class="string">&#x27;https://login.hdu.edu.cn/cgi-bin/get_challenge&#x27;</span>, params=params,</span><br><span class="line">                           headers=headers).text</span><br><span class="line">    <span class="keyword">return</span> session, re_token.findall(response)[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">get_hmd5</span>(<span class="params">password, token</span>):</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&quot;./md5.js&quot;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        js_code = f.read()</span><br><span class="line">    ctx = execjs.<span class="built_in">compile</span>(js_code)</span><br><span class="line">    result = ctx.call(<span class="string">&quot;A&quot;</span>, password, token)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">login</span>(<span class="params">session, username, password, chksum, info, ip,callback</span>):</span><br><span class="line">    cookies = &#123;</span><br><span class="line">        <span class="string">&#x27;lang&#x27;</span>: <span class="string">&#x27;zh-CN&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept-Language&#x27;</span>: <span class="string">&#x27;zh-CN,zh;q=0.9&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Cache-Control&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Connection&#x27;</span>: <span class="string">&#x27;keep-alive&#x27;</span>,</span><br><span class="line">        <span class="comment"># &#x27;Cookie&#x27;: &#x27;lang=zh-CN&#x27;,</span></span><br><span class="line">        <span class="string">&#x27;Pragma&#x27;</span>: <span class="string">&#x27;no-cache&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Referer&#x27;</span>: <span class="string">&#x27;https://login.hdu.edu.cn/srun_portal_pc?ac_id=0&amp;theme=pro&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Dest&#x27;</span>: <span class="string">&#x27;empty&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Mode&#x27;</span>: <span class="string">&#x27;cors&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Sec-Fetch-Site&#x27;</span>: <span class="string">&#x27;same-origin&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;X-Requested-With&#x27;</span>: <span class="string">&#x27;XMLHttpRequest&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua&#x27;</span>: <span class="string">&#x27;&quot;Not A(Brand&quot;;v=&quot;99&quot;, &quot;Google Chrome&quot;;v=&quot;121&quot;, &quot;Chromium&quot;;v=&quot;121&quot;&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-mobile&#x27;</span>: <span class="string">&#x27;?0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;sec-ch-ua-platform&#x27;</span>: <span class="string">&#x27;&quot;Windows&quot;&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    params = &#123;</span><br><span class="line">        <span class="string">&#x27;callback&#x27;</span>: callback+<span class="string">&#x27;_&#x27;</span>+<span class="built_in">str</span>(millis),</span><br><span class="line">        <span class="string">&#x27;action&#x27;</span>: <span class="string">&#x27;login&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;username&#x27;</span>: username,</span><br><span class="line">        <span class="string">&#x27;password&#x27;</span>: <span class="string">&quot;&#123;MD5&#125;&quot;</span> + password,</span><br><span class="line">        <span class="string">&#x27;os&#x27;</span>: <span class="string">&#x27;Windows 10&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;name&#x27;</span>: <span class="string">&#x27;Windows&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;double_stack&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;chksum&#x27;</span>: chksum,</span><br><span class="line">        <span class="string">&#x27;info&#x27;</span>: info,</span><br><span class="line">        <span class="string">&#x27;ac_id&#x27;</span>: <span class="string">&#x27;0&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;ip&#x27;</span>: ip,</span><br><span class="line">        <span class="string">&#x27;n&#x27;</span>: <span class="string">&#x27;200&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;type&#x27;</span>: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;_&#x27;</span>: millis+<span class="number">3</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    response = session.get(<span class="string">&#x27;https://login.hdu.edu.cn/cgi-bin/srun_portal&#x27;</span>, params=params, cookies=cookies,</span><br><span class="line">                           headers=headers)</span><br><span class="line"></span><br><span class="line">    <span class="built_in">print</span>(response.text)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    ctx = execjs.<span class="built_in">compile</span>(<span class="string">&#x27;function test()&#123; return (&quot;jQuery&quot; + (&quot;1.12.4&quot; + Math.random()).replace(/\D/g, &quot;&quot;));&#125;&#x27;</span>)</span><br><span class="line">    callback = ctx.call(<span class="string">&quot;test&quot;</span>)</span><br><span class="line">    username = <span class="string">&quot;xxxxxxx&quot;</span></span><br><span class="line">    password = <span class="string">&quot;xxxxx&quot;</span></span><br><span class="line">    ip = <span class="string">&quot;10.25.10.161&quot;</span></span><br><span class="line">    data = <span class="string">&#x27;&#123;&quot;username&quot;:&quot;&#x27;</span> + username + <span class="string">&#x27;&quot;,&quot;password&quot;:&quot;&#x27;</span> + password + <span class="string">&#x27;&quot;,&quot;ip&quot;:&quot;&#x27;</span> + ip + <span class="string">&#x27;&quot;,&quot;acid&quot;:&quot;0&quot;,&quot;enc_ver&quot;:&quot;srun_bx1&quot;&#125;&#x27;</span></span><br><span class="line">    session, token = getToken(<span class="string">&quot;xxxxxxx&quot;</span>, <span class="string">&quot;10.25.10.161&quot;</span>,callback)</span><br><span class="line">    info = getInfo(data, token)</span><br><span class="line">    hmd5 = get_hmd5(password, token)</span><br><span class="line">    chksum = getChksum(username, hmd5, token, ip, info)</span><br><span class="line">    login(session, username, hmd5, chksum, info, ip,callback)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>md5()在js中传了两个参数，我不懂密码学，不知道这个应该调用哪个python函数，所以就把对应的js代码抠出来了。<br>最后可以达到运行脚本一键登录的效果，其实这个破脚本没啥卵用</p>
+
+      </section>
+
+      
+      
+        <nav class="article-nav">
+          
+          
+            <div class="article-nav-item layout-padding">
+  <article class="card-container article-nav-card content-padding--primary soft-size--large soft-style--box">
+    
+      <div class="card-cover" background-image-lazy data-img="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/1704720847289.jpg"></div>
+    
+    <div class="card-text">
+      
+        <a href="/2024/01/08/APP%E6%8A%93%E5%8C%85%E5%B0%8F%E8%AE%B0(%E6%B0%B4%E6%96%87)/" itemprop="url">
+          <h2 class="card-text--title text-ellipsis">APP抓包小记(水文)</h2>
+        </a>
+      
+      <div class="card-text--row">Older</div>
+    </div>
+  </article>
+</div>
+          
+        </nav>
+      
+
+      <section class="page-message-container layout-padding">
+        
+
+
+  
+  
+    <div class="valine-container comments-container content-padding--primary soft-size--large soft-style--box">
+      <div id="valine_thread" class="valine-thread"></div>
+    </div>
+    <script type="text/javascript" src="//lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/av-min.js"></script>
+    <script type="text/javascript" src='//lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/Valine.min.js'></script>
+    <script type="text/javascript">
+      new Valine({
+        el: "#valine_thread",
+        appId: "aEs4IH19AOVg9vxAAGCFlAd5-gzGzoHsz",
+        appKey: "Or2fQSExDK1sj0mq9SqaSNGe",
+        placeholder: "随便说点什么叭～",
+        avatar: "mp",
+        pageSize: 10,
+        lang: "zh-cn",
+        visitor: true,
+        recordIP: true,
+        enableQQ: false,
+        meta: ['nick', 'mail', 'link'],
+        requiredFields: ['nick'],
+        
+        // Bilibili 表情包插件
+        // 设置 Bilibili 表情包地址
+        emojiCDN: '//i0.hdslb.com/bfs/emote/', 
+        // 表情 title 和图片映射
+        emojiMaps: {
+            // 小黄脸
+            "2023": "fa6dda8b876ed38609de38aa604be5ad109b8591.png",
+            "足球": "f9157d9fa5ac3b8339cb8a8b7ad70eb40d4113c9.png",
+            "脱单doge": "bf7e00ecab02171f8461ee8cf439c73db9797748.png",
+            "微笑": "685612eadc33f6bc233776c6241813385844f182.png",
+            "口罩": "3ad2f66b151496d2a5fb0a8ea75f32265d778dd3.png",
+            "doge": "3087d273a78ccaff4bb1e9972e2ba2a7583c9f11.png",
+            "妙啊": "b4cb77159d58614a9b787b91b1cd22a81f383535.png",
+            "OK": "4683fd9ffc925fa6423110979d7dcac5eda297f4.png",
+            "星星眼": "63c9d1a31c0da745b61cdb35e0ecb28635675db2.png",
+            "辣眼睛": "35d62c496d1e4ea9e091243fa812866f5fecc101.png",
+            "吃瓜": "4191ce3c44c2b3df8fd97c33f85d3ab15f4f3c84.png",
+            "滑稽": "d15121545a99ac46774f1f4465b895fe2d1411c3.png",
+            "呲牙": "b5a5898491944a4268360f2e7a84623149672eb6.png",
+            "打call": "431432c43da3ee5aab5b0e4f8931953e649e9975.png",
+            "歪嘴": "4384050fbab0586259acdd170b510fe262f08a17.png",
+            "调皮": "8290b7308325e3179d2154327c85640af1528617.png",
+            "2022": "a783df2ce72952c44004007462324bde4b092a0c.png",
+            "虎年": "a062f5fa2bafe677e49b6963a2bbb11dd4fe1e11.png",
+            "豹富": "3d1dbe52ea16e12ff7b1c371196f728a4097fb33.png",
+            "嗑瓜子": "28a91da1685d90124cfeead74622e1ebb417c0eb.png",
+            "笑哭": "c3043ba94babf824dea03ce500d0e73763bf4f40.png",
+            "藏狐": "ba0937ef6f3ccca85e2e0047e6263f3b4da37201.png",
+            "脸红": "0922c375da40e6b69002bd89b858572f424dcfca.png",
+            "给心心": "1597302b98827463f5b75c7cac1f29ea6ce572c4.png",
+            "嘟嘟": "abd7404537d8162720ccbba9e0a8cdf75547e07a.png",
+            "哦呼": "362bded07ea5434886271d23fa25f5d85d8af06c.png",
+            "喜欢": "8a10a4d73a89f665feff3d46ca56e83dc68f9eb8.png",
+            "酸了": "92b1c8cbceea3ae0e8e32253ea414783e8ba7806.png",
+            "嫌弃": "de4c0783aaa60ec03de0a2b90858927bfad7154b.png",
+            "大哭": "2caafee2e5db4db72104650d87810cc2c123fc86.png",
+            "害羞": "9d2ec4e1fbd6cb1b4d12d2bbbdd124ccb83ddfda.png",
+            "疑惑": "b7840db4b1f9f4726b7cb23c0972720c1698d661.png",
+            "喜极而泣": "485a7e0c01c2d70707daae53bee4a9e2e31ef1ed.png",
+            "奸笑": "bb84906573472f0a84cebad1e9000eb6164a6f5a.png",
+            "笑": "81edf17314cea3b48674312b4364df44d5c01f17.png",
+            "偷笑": "6c49d226e76c42cd8002abc47b3112bc5a92f66a.png",
+            "惊讶": "f8e9a59cad52ae1a19622805696a35f0a0d853f3.png",
+            "捂脸": "6921bb43f0c634870b92f4a8ad41dada94a5296d.png",
+            "阴险": "ba8d5f8e7d136d59aab52c40fd3b8a43419eb03c.png",
+            "囧": "12e41d357a9807cc80ef1e1ed258127fcc791424.png",
+            "呆": "33ad6000d9f9f168a0976bc60937786f239e5d8c.png",
+            "抠鼻": "cb89184c97e3f6d50acfd7961c313ce50360d70f.png",
+            "大笑": "ca94ad1c7e6dac895eb5b33b7836b634c614d1c0.png",
+            "惊喜": "0afecaf3a3499479af946f29749e1a6c285b6f65.png",
+            "无语": "44667b7d9349957e903b1b62cb91fb9b13720f04.png",
+            "点赞": "1a67265993913f4c35d15a6028a30724e83e7d35.png",
+            "鼓掌": "895d1fc616b4b6c830cf96012880818c0e1de00d.png",
+            "尴尬": "cb321684ed5ce6eacdc2699092ab8fe7679e4fda.png",
+            "灵魂出窍": "43d3db7d97343c01b47e22cfabeca84b4251f35a.png",
+            "委屈": "d2f26cbdd6c96960320af03f5514c5b524990840.png",
+            "傲娇": "010540d0f61220a0db4922e4a679a1d8eca94f4e.png",
+            "疼": "905fd9a99ec316e353b9bd4ecd49a5f0a301eabf.png",
+            "冷": "cb0ebbd0668640f07ebfc0e03f7a18a8cd00b4ed.png",
+            "热": "4e58a2a6f5f1580ac33df2d2cf7ecad7d9ab3635.png",
+            "生病": "0f25ce04ae1d7baf98650986454c634f6612cb76.png",
+            "吓": "9c10c5ebc7bef27ec641b8a1877674e0c65fea5d.png",
+            "吐": "06946bfe71ac48a6078a0b662181bb5cad09decc.png",
+            "捂眼": "c5c6d6982e1e53e478daae554b239f2b227b172b.png",
+            "嘘声": "e64af664d20716e090f10411496998095f62f844.png",
+            "思考": "cfa9b7e89e4bfe04bbcd34ccb1b0df37f4fa905c.png",
+            "再见": "fc510306bae26c9aec7e287cdf201ded27b065b9.png",
+            "翻白眼": "eba54707c7168925b18f6f8b1f48d532fe08c2b1.png",
+            "哈欠": "888d877729cbec444ddbd1cf4c9af155a7a06086.png",
+            "奋斗": "bb2060c15dba7d3fd731c35079d1617f1afe3376.png",
+            "墨镜": "3a03aebfc06339d86a68c2d893303b46f4b85771.png",
+            "难过": "a651db36701610aa70a781fa98c07c9789b11543.png",
+            "撇嘴": "531863568e5668c5ac181d395508a0eeb1f0cda4.png",
+            "抓狂": "4c87afff88c22439c45b79e9d2035d21d5622eba.png",
+            "生气": "3195714219c4b582a4fb02033dd1519913d0246d.png",
+            "水稻": "d530fcaa5100ba12a17a79b55bad342d530c54e3.png",
+            "奶茶干杯": "d5a491990be551ce69f9660da948050df4eab331.png",
+            "汤圆": "93609633a9d194cf336687eb19c01dca95bde719.png",
+            "锦鲤": "643d6c19c8164ffd89e3e9cdf093cf5d773d979c.png",
+            "弹幕破百亿": "80891223ba023dff3141e377f4ea3b89918eb6a4.png",
+            "福到了": "5de5373d354c373cf1617b6b836f3a8d53c5a655.png",
+            "鸡腿": "c7860392815d345fa69c4f00ef18d67dccfbd574.png",
+            "雪花": "a41813c4edf8782047e172c884ebd4507ce5e449.png",
+            "视频卫星": "dce6fc7d6dfeafff01241924db60f8251cca5307.png",
+            "干杯": "8da12d5f55a2c7e9778dcc05b40571979fe208e6.png",
+            "黑洞": "e90ec4c799010f25391179118ccd9f66b3b279ba.png",
+            "爱心": "ed04066ea7124106d17ffcaf75600700e5442f5c.png",
+            "胜利": "b49fa9f4b1e7c3477918153b82c60b114d87347c.png",
+            "加油": "c7aaeacb21e107292d3bb053e5abde4a4459ed30.png",
+            "抱拳": "89516218158dbea18ab78e8873060bf95d33bbbe.png",
+            "响指": "1b5c53cf14336903e1d2ae3527ca380a1256a077.png",
+            "保佑": "fafe8d3de0dc139ebe995491d2dac458a865fb30.png",
+            "福": "802429a301ac5b35a0480d9526a070ce67cd8097.png",
+            "支持": "3c210366a5585706c09d4c686a9d942b39feeb50.png",
+            "拥抱": "41780a4254750cdaaccb20735730a36044e98ef3.png",
+            "跪了": "f2b3aee7e521de7799d4e3aa379b01be032698ac.png",
+            "怪我咯": "07cc6077f7f7d75b8d2c722dd9d9828a9fb9e46d.png",
+            "老鼠": "8e6fb491eb1bb0d5862e7ec8ccf9a3da12b6c155.png",
+            "牛年": "9275275ff1f2659310648221107d20bc4970f106.png",
+            "三星堆": "fc7dadaa6986e75b813aa26f3eff3281d5f1a6d1.png",
+            "洛天依": "9fe06f3594d9afaf4ee2b74770f1c3086ae0ba11.png",
+            "坎公骑冠剑_吃鸡": "c4248a7b6ab326d66c83fd1fb58f1a50f99df332.png",
+            "坎公骑冠剑_钻石": "0b97c7e50e0cc963370e62fbb9b55f51bbe7f8ab.png",
+            "坎公骑冠剑_无语": "80eba0ce64c3fc1279b4daede2f1979cb2380e78.png",
+            "来古-沉思": "4ee07ff03266d62b246be0b950bebb2abf3d997c.png",
+            "来古-呆滞": "9a70b365e523f2379f395031ceefcebb75a45903.png",
+            "来古-疑问": "032fdc0d9d9fe6334776f6c39518a959b73b98f4.png",
+            "来古-震撼": "8b40f228675602a317d32007de6b795c101135ec.png",
+            "来古-注意": "4b671ba32a2581cf40e5cd41c67b111eb8010de0.png",
+            "初音未来_大笑": "8e7f71cda83ce407b0684702983399f8ed982f17.png",
+            "原神_哇": "8188ddf95bace929d382c7a83214afde79d83bfc.png",
+            "原神_哼": "91ed33b74bc36873c3ac8b2648f70d7ab6d8ab78.png",
+            "原神_嗯": "8b0a87e414f453a29730b6e0f45ca61f2f898688.png",
+            "原神_欸嘿": "8fba438fcbe0550877b04efd768d857082307c5e.png",
+            "原神_喝茶": "1de5789fbb3526ef7823c54db7081790a38e7044.png",
+            "原神_生气": "90a38c34742899f8e84138ed55f56cad3ba611fb.png",
+            "保卫萝卜_白眼": "9fce63f38288700bf7be84f3be336cf895ba0902.png",
+            "保卫萝卜_笔芯": "5ff2ed5cb71b02010018cc5910ac7052a03769af.png",
+            "保卫萝卜_哭哭": "7d249f7c990111d3e2982f7477af15b7eb29cbd9.png",
+            "保卫萝卜_哇": "5f2370e561c32d841245f7b1aab2eef43aeb9544.png",
+            "保卫萝卜_问号": "41eb93f09fc4a4d0692a310e8a1f85ba60e96060.png",
+            "无悔华夏_不愧是你": "c58002c32ee78d45366e126f294cb3149dd64ac2.png",
+            "无悔华夏_吃瓜": "273dcff577551bafff4f1eae18561f871e73a6ba.png",
+            "无悔华夏_达咩": "cffab383f47bab7f6736ba9c8d6ac098113410d9.png",
+            "无悔华夏_点赞": "b0f2e8db405ec667c3e6aaabd7c15155b6ea8710.png",
+            "无悔华夏_好耶": "324cd79784aeb37dbf2f47f68bbe8ed5d01f975e.png",
+            "奥比岛_搬砖": "1fab697214918d91087373a999cc7ef8040ddf85.png",
+            "奥比岛_点赞": "fb0b476fe2ff30cd59385ea7d616627ac114161f.png",
+            "奥比岛_击爪": "35bba1bb8f164c5e844155548438248e6eaa8382.png",
+            "奥比岛_委屈": "fda155e7c33b40dbb94c24644e0635d47b6ef3cc.png",
+            "奥比岛_喜欢": "ed64e0c81ee194138bd9df30c65077ed978fb88c.png",
+            // tv_小电视
+            "tv_白眼": "c1d59f439e379ee50eef488bcb5e5378e5044ea4.png",
+            "tv_doge": "6ea59c827c414b4a2955fe79e0f6fd3dcd515e24.png",
+            "tv_坏笑": "1f0b87f731a671079842116e0991c91c2c88645a.png",
+            "tv_难过": "87f46748d3f142ebc6586ff58860d0e2fc8263ba.png",
+            "tv_生气": "26702dcafdab5e8225b43ffd23c94ac1ff932654.png",
+            "tv_委屈": "d04dba7b5465779e9755d2ab6f0a897b9b33bb77.png",
+            "tv_斜眼笑": "911f987aa8bc1bee12d52aafe62bc41ef4474e6c.png",
+            "tv_呆": "fe1179ebaa191569b0d31cecafe7a2cd1c951c9d.png",
+            "tv_发怒": "34ba3cd204d5b05fec70ce08fa9fa0dd612409ff.png",
+            "tv_惊吓": "0d15c7e2ee58e935adc6a7193ee042388adc22af.png",
+            "tv_呕吐": "9f996894a39e282ccf5e66856af49483f81870f3.png",
+            "tv_思考": "90cf159733e558137ed20aa04d09964436f618a1.png",
+            "tv_微笑": "70dc5c7b56f93eb61bddba11e28fb1d18fddcd4c.png",
+            "tv_疑问": "0793d949b18d7be716078349c202c15ff166f314.png",
+            "tv_大哭": "23269aeb35f99daee28dda129676f6e9ea87934f.png",
+            "tv_鼓掌": "1d21793f96ef4e6f48b23e53e3b9e42da833a0f6.png",
+            "tv_抠鼻": "c666f55e88d471e51bbd9fab9bb308110824a6eb.png",
+            "tv_亲亲": "a8111ad55953ef5e3be3327ef94eb4a39d535d06.png",
+            "tv_调皮": "b9c41de8e82dd7a8515ae5e3cb63e898bf245186.png",
+            "tv_笑哭": "1abc628f6d4f4caf9d0e7800878f4697abbc8273.png",
+            "tv_晕": "5443c22b4d07fb1907ccc610c8e6db254f2461b7.png",
+            "tv_点赞": "f85c354995bd99e28fc76c869bfe42ba6438eff4.png",
+            "tv_害羞": "a37683fb5642fa3ddfc7f4e5525fd13e42a2bdb1.png",
+            "tv_睡着": "8b196675b53af58264f383c50ad0945048290b33.png",
+            "tv_色": "61822c7e9aae5da76475e7892534545336b23a6f.png",
+            "tv_吐血": "09dd16a7aa59b77baa1155d47484409624470c77.png",
+            "tv_无奈": "ea8ed89ee9878f2fece2dda0ea8a5dbfe21b5751.png",
+            "tv_再见": "180129b8ea851044ce71caf55cc8ce44bd4a4fc8.png",
+            "tv_流汗": "cead1c351ab8d79e9f369605beb90148db0fbed3.png",
+            "tv_偷笑": "bb690d4107620f1c15cff29509db529a73aee261.png",
+            "tv_抓狂": "fe31c08edad661d63762b04e17b8d5ae3c71a757.png",
+            "tv_黑人问号": "45821a01f51bc867da9edbaa2e070410819a95b2.png",
+            "tv_困": "241ee304e44c0af029adceb294399391e4737ef2.png",
+            "tv_打脸": "56ab10b624063e966bfcb76ea5dc4794d87dfd47.png",
+            "tv_闭嘴": "c9e990da7f6e93975e25fd8b70e2e290aa4086ef.png",
+            "tv_鄙视": "6e72339f346a692a495b123174b49e4e8e781303.png",
+            "tv_腼腆": "89712c0d4af73e67f89e35cbc518420380a7f6f4.png",
+            "tv_馋": "fc7e829b845c43c623c8b490ee3602b7f0e76a31.png",
+            "tv_可爱": "9e55fd9b500ac4b96613539f1ce2f9499e314ed9.png",
+            "tv_发财": "34db290afd2963723c6eb3c4560667db7253a21a.png",
+            "tv_生病": "8b0ec90e6b86771092a498c54f09fc94621c1900.png",
+            "tv_流鼻血": "c32d39db2737f89b904ca32700d140a9241b0767.png",
+            "tv_尴尬": "7cfa62dafc59798a3d3fb262d421eeeff166cfa4.png",
+            "tv_大佬": "093c1e2c490161aca397afc45573c877cdead616.png",
+            "tv_流泪": "7e71cde7858f0cd50d74b0264aa26db612a8a167.png",
+            "tv_冷漠": "b9cbc755c2b3ee43be07ca13de84e5b699a3f101.png",
+            "tv_皱眉": "72ccad6679fea0d14cce648b4d818e09b8ffea2d.png",
+            "tv_鬼脸": "0ffbbddf8a94d124ca2f54b360bbc04feb6bbfea.png",
+            "tv_调侃": "4bc022533ef31544ca0d72c12c808cf4a1cce3e3.png",
+            "tv_目瞪口呆": "0b8cb81a68de5d5365212c99375e7ace3e7891b7.png",
+            // ... 更多表情
+        }
+        
+      });
+    </script>
+  
+
+  
+  
+
+
+      </section>
+    </div>
+    <div class="widget-info">
+      <section class="widget-author widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-body">
+    
+      <img src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/images/head.jpg" class="soft-size--round soft-style--box" alt="n0boy">
+    
+    
+      <h2>n0boy</h2>
+    
+    
+      <p>我们无比的厌恶他人的傲慢，却无比的放纵自己的傲慢。</p>
+    
+
+    <div class="count-box">
+      <div class="count-box--item">
+        <svg class="icon icon-article" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M240.51564747 647.74217627h196.07203239c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806V165.10332731c0-33.18142087-30.16492806-60.32985613-60.32985612-60.32985611H245.04038668C225.43318342 104.7734712 210.35071939 119.85593522 210.35071939 139.46313845V617.57724821c0 16.59071043 13.57421762 30.16492806 30.16492808 30.16492806z m663.62841731-452.47392089v482.63884894c0 33.18142087-27.14843525 60.32985613-60.32985612 60.32985613H180.18579134c-33.18142087 0-60.32985613-27.14843525-60.32985612-60.32985613V195.26825538c-49.77213131 0-90.49478418 40.72265287-90.49478417 90.49478417v452.4739209c0 49.77213131 40.72265287 90.49478418 90.49478417 90.49478417h286.56681657c16.59071043 0 30.16492806 13.57421762 30.16492807 30.16492807s13.57421762 30.16492806 30.16492805 30.16492806h90.49478418c16.59071043 0 30.16492806-13.57421762 30.16492805-30.16492806s13.57421762-30.16492806 30.16492807-30.16492807h286.56681657c49.77213131 0 90.49478418-40.72265287 90.49478417-90.49478417V285.76303955c0-49.77213131-40.72265287-90.49478418-90.49478417-90.49478417zM587.41232014 647.74217627h191.54729318c19.60720323 0 34.68966726-15.08246403 34.68966729-34.68966727V134.93839925c0-16.59071043-13.57421762-30.16492806-30.16492808-30.16492805H617.57724821c-30.16492806 0-60.32985613 27.14843525-60.32985612 60.32985611v452.4739209c0 16.59071043 13.57421762 30.16492806 30.16492805 30.16492806z" fill="currentColor"></path>
+</svg>
+        <span>3</span>
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+        0
+      </div>
+      <div class="count-box--item">
+        <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+        3
+      </div>
+    </div>
+  </div>
+</section>
+
+      
+
+      
+
+      <section class="widget-categorys widget-item layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-categories" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M900.3614811 257.09082106h-339.81629553l-67.96326003-101.9448889c-19.41807444-29.12711113-48.54518557-43.69066667-82.52681443-43.69066667H123.6385189c-53.39970333 0-97.09036999 43.69066667-97.09037113 97.09036999v582.54222222c0 53.39970333 43.69066667 97.09036999 97.09037113 97.09037002h776.7229622c53.39970333 0 97.09036999-43.69066667 97.09037113-97.09037002V354.18119104c0-53.39970333-43.69066667-97.09036999-97.09037113-97.09036998z m-97.09036999 242.72592554H220.72888889c-24.27259221 0-48.54518557-24.27259221-48.54518556-48.54518556s24.27259221-48.54518557 48.54518556-48.54518444h582.54222222c24.27259221 0 48.54518557 24.27259221 48.54518556 48.54518444s-24.27259221 48.54518557-48.54518556 48.54518556z" fill="currentColor"></path>
+</svg>
+    <span>CATEGORYS</span>
+  </div>
+  <div class="widget-body">
+    <ul class="categorys-list">
+      
+    </ul>
+  </div>
+</section>
+
+      <section class="widget-tags widget-item  layout-margin content-padding--primary soft-size--large soft-style--box">
+  <div class="widget-title">
+    <svg class="icon icon-tags" viewBox="0 0 1098 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M283.42180005 272q0-28.38857157-20.09142843-48.48000001t-48.47999998-20.09142842-48.48000002 20.09142842-20.09142846 48.48000001 20.09142846 48.48 48.48000002 20.09142843 48.47999998-20.09142843 20.09142843-48.48zM855.0332285 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.03999997 263.58857157q-20.9142853 19.81714313-48.75428534 19.81714312-28.38857157 0-48.20571468-19.81714312l-383.04-383.58857157q-20.36571468-19.81714313-34.55999999-54.10285688t-14.19428534-62.6742853l0-222.85714313q0-27.84000002 20.36571469-48.20571469t48.2057147-20.36571466l222.85714313 0q28.38857157 0 62.6742853 14.19428529t54.65142842 34.55999999l383.04000001 382.49142843q19.81714313 20.9142853 19.81714314 48.75428532zM1060.74751475 580.57142843q0 28.38857157-19.81714313 48.2057147l-263.04 263.58857157q-20.9142853 19.81714313-48.75428531 19.81714312-19.26857155 0-31.61142843-7.47428531t-28.38857159-24.13714314l251.79428534-251.7942853q19.81714313-19.81714313 19.81714308-48.20571469 0-27.84000002-19.81714308-48.75428531l-383.04000001-382.49142845q-20.36571468-20.36571468-54.65142842-34.55999999t-62.67428532-14.19428534l120 0q28.38857157 0 62.67428532 14.19428534t54.65142842 34.55999999l383.03999998 382.49142845q19.81714313 20.9142853 19.81714314 48.75428531z" fill="currentColor"></path>
+</svg>
+    <span>TAGS</span>
+  </div>
+  <div class="widget-body">
+    <div class="tags-cloud">
+      <a href="/tags/Android/" style="font-size: 15px;" class="tags-cloud-0">Android</a> <a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/" style="font-size: 15px;" class="tags-cloud-0">java反序列化</a> <a href="/tags/javgscript/" style="font-size: 15px;" class="tags-cloud-0">javgscript</a>
+    </div>
+  </div>
+</section>
+    </div>
+  </article>
+</div>
+
+
+    <script type="text/javascript" src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/wrapImg.js"></script>
+
+
+    <!-- footer container -->
+<footer id="footer" class="footer">
+  <div class="footer-container">
+    
+    <div class="social-icons">
+      
+        
+      
+        
+      
+        
+      
+        
+          <a href="https://github.com/N0boy-0/" class="soft-size--primary soft-style--box" target="_blank" rel="noopener noreferrer">
+            <svg class="icon icon-github" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M64.6 512c0 195.6 125.4 361.9 300.1 422.9 23.5 5.9 19.9-10.8 19.9-22.2v-77.6c-135.8 15.9-141.3-74-150.5-89-18.5-31.5-61.9-39.5-49-54.5 31-15.9 62.5 4 98.9 58 26.4 39.1 77.9 32.5 104.1 26 5.7-23.5 17.9-44.5 34.7-60.9-140.7-25.2-199.4-111.1-199.4-213.3 0-49.5 16.4-95.1 48.4-131.8-20.4-60.6 1.9-112.4 4.9-120.1 58.2-5.2 118.5 41.6 123.3 45.3 33.1-8.9 70.8-13.7 112.9-13.7 42.4 0 80.3 4.9 113.5 13.9 11.3-8.6 67.3-48.8 121.4-43.9 2.9 7.7 24.7 58.3 5.5 118.1 32.5 36.8 49 82.8 49 132.4 0 102.3-59 188.3-200.2 213.2 23.5 23.3 38.1 55.5 38.1 91.1v112.7c0.8 9 0 17.9 15.1 17.9C832.7 877 960.4 709.4 960.4 512.1c0-247.5-200.6-447.9-447.9-447.9C265 64.1 64.6 264.5 64.6 512z"></path>
+</svg>
+          </a>
+        
+      
+        
+      
+    </div>
+     
+    <p>&copy; 2024 <a href="/" target="_blank">n0boy</a></p>
+
+    
+
+    <p>Powered by <a href="https://hexo.io" target="_blank" rel="noopener noreferrer">Hexo</a> Theme - <a href="https://github.com/miiiku/flex-block" target="_blank" rel="noopener noreferrer author">flex-block</a></p>
+
+    <p>
+      <a href="javascript:;" id="theme-light">🌞 浅色</a>
+      <a href="javascript:;" id="theme-dark">🌛 深色</a>
+      <a href="javascript:;" id="theme-auto">🤖️ 自动</a>
+    </p>
+  </div>
+</footer>
+  </div>
+
+  <div class="back-to-top-fixed soft-size--round soft-style--box">
+    <svg class="icon icon-back-to-top" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+      <path d="M725.333333 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8l-213.333333-213.333333c-17.066667-17.066667-17.066667-42.666667 0-59.733333s42.666667-17.066667 59.733333 0l213.333333 213.333333c17.066667 17.066667 17.066667 42.666667 0 59.733333C746.666667 422.4 738.133333 426.666667 725.333333 426.666667z"></path>
+      <path d="M298.666667 426.666667c-12.8 0-21.333333-4.266667-29.866667-12.8-17.066667-17.066667-17.066667-42.666667 0-59.733333l213.333333-213.333333c17.066667-17.066667 42.666667-17.066667 59.733333 0s17.066667 42.666667 0 59.733333l-213.333333 213.333333C320 422.4 311.466667 426.666667 298.666667 426.666667z"></path>
+      <path d="M512 896c-25.6 0-42.666667-17.066667-42.666667-42.666667L469.333333 170.666667c0-25.6 17.066667-42.666667 42.666667-42.666667s42.666667 17.066667 42.666667 42.666667l0 682.666667C554.666667 878.933333 537.6 896 512 896z"></path>
+    </svg>
+  </div>
+
+  
+  <!-- aplayer -->
+
+
+<!-- dplayer -->
+
+
+<!-- copy button  -->
+<script src="https://lucifer-image.oss-cn-hangzhou.aliyuncs.com/js/clipboard.min.js"></script>
+
+<!-- https://clipboardjs.com/ -->
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+  
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+  
+  <!-- 尾部用户自定义相关内容 -->
+</body>
+</html>
